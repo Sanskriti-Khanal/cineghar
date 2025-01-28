@@ -82,6 +82,9 @@ dev_dependencies:
   # Development Tools
   pretty_dio_logger: ^1.4.0
 
+  # Testing
+  mocktail: ^1.0.3
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

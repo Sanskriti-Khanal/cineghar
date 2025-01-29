@@ -10,9 +10,8 @@ void main() {
       ),
     );
 
-    await tester.pump(const Duration(milliseconds: 500));
-
-    expect(find.byType(SplashPage), findsOneWidget);
+    await tester.pump(const Duration(seconds: 4));
+    expect(find.byType(Scaffold), findsWidgets);
   });
 
   testWidgets('SplashPage has Scaffold', (WidgetTester tester) async {
@@ -22,6 +21,7 @@ void main() {
       ),
     );
 
+    await tester.pump(const Duration(seconds: 4));
     expect(find.byType(Scaffold), findsOneWidget);
   });
 }

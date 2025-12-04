@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:cineghar/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -50,7 +51,14 @@ class _SplashScreenState extends State<SplashScreen>
       }
     });
 
-    Timer(const Duration(seconds: 3), () {});
+    Timer(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => const OnboardingScreen(),
+        ),
+      );
+    });
   }
 
   @override

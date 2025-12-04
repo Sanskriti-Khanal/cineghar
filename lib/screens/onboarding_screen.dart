@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cineghar/screens/onboarding_screen_two.dart';
+import 'package:cineghar/screens/welcome_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -39,7 +40,14 @@ class OnboardingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const WelcomeScreen(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Skip',
                           style: TextStyle(

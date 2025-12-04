@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cineghar/screens/welcome_screen.dart';
 
 class OnboardingScreenThree extends StatelessWidget {
   const OnboardingScreenThree({super.key});
@@ -38,7 +39,14 @@ class OnboardingScreenThree extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const WelcomeScreen(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Skip',
                           style: TextStyle(
@@ -85,7 +93,14 @@ class OnboardingScreenThree extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const WelcomeScreen(),
+                              ),
+                            );
+                          },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               vertical: 14,

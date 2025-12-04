@@ -14,6 +14,10 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
 
+  final String _title = 'CineGhar';
+  int _visibleChars = 0;
+  Timer? _typingTimer;
+
   @override
   void initState() {
     super.initState();
@@ -40,58 +44,102 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Timer(const Duration(seconds: 3), () {
-      // Navigate to onboarding screen (will be created later)
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => OnboardingScreen()),
-      // );
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _startTyping();
+      }
     });
+
+    Timer(const Duration(seconds: 3), () {});
   }
 
   @override
   void dispose() {
+    _typingTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 600;
-    final logoSize = isTablet ? 300.0 : 200.0;
+    final size = MediaQuery.of(context).size;
+    final isTablet = size.width > 600;
+    final logoSize = isTablet ? 130.0 : 90.0;
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: ScaleTransition(
-            scale: _scaleAnimation,
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: logoSize,
-              height: logoSize,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: logoSize,
-                  height: logoSize,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(20),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/images/background.png',
+            fit: BoxFit.cover,
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.6),
+          ),
+          Center(
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: ScaleTransition(
+                scale: _scaleAnimation,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/logo.png',
+                        width: logoSize,
+                        height: logoSize,
+                      ),
+                      const SizedBox(width: 12),
+                      SizedBox(
+                        height: logoSize,
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            _title.substring(0, _visibleChars),
+                            style: TextStyle(
+                              fontSize: isTablet ? 48 : 34,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.8),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  child: Icon(
-                    Icons.movie,
-                    size: logoSize * 0.6,
-                    color: Colors.grey[400],
-                  ),
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
+  }
+
+  void _startTyping() {
+    _typingTimer?.cancel();
+    _visibleChars = 0;
+
+    _typingTimer = Timer.periodic(const Duration(milliseconds: 120), (timer) {
+      if (_visibleChars >= _title.length) {
+        timer.cancel();
+        return;
+      }
+      setState(() {
+        _visibleChars++;
+      });
+    });
   }
 }
 

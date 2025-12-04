@@ -37,108 +37,104 @@ class OnboardingScreen extends StatelessWidget {
             ),
           ),
           SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: horizontalPadding,
-                  vertical: verticalPadding,
-                ),
-                child: SizedBox(
-                  height: size.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
+                vertical: verticalPadding,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const WelcomeScreen(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Skip',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: skipFontSize,
-                              ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const WelcomeScreen(),
                             ),
+                          );
+                        },
+                        child: Text(
+                          'Skip',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: skipFontSize,
                           ),
-                        ],
-                      ),
-                      SizedBox(height: size.height * 0.04),
-                      Text(
-                        'Discover the\nLatest Movies',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: titleFontSize,
-                          fontWeight: FontWeight.bold,
-                          height: 1.3,
                         ),
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      Text(
-                        'Explore trending movies and\nget tickets in your hand',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.85),
-                          fontSize: subtitleFontSize,
-                          height: 1.4,
-                        ),
-                      ),
-                      const Spacer(),
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const _PageDot(isActive: true),
-                              const SizedBox(width: 8),
-                              const _PageDot(isActive: false),
-                              const SizedBox(width: 8),
-                              const _PageDot(isActive: false),
-                            ],
-                          ),
-                          SizedBox(height: size.height * 0.03),
-                          SizedBox(
-                            width: double.infinity,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => const OnboardingScreenTwo(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: size.height * 0.018,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Next',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: buttonFontSize,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: size.height * 0.015),
-                        ],
                       ),
                     ],
                   ),
-                ),
+                  SizedBox(height: size.height * 0.04),
+                  Text(
+                    'Discover the\nLatest Movies',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: titleFontSize,
+                      fontWeight: FontWeight.bold,
+                      height: 1.3,
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  Text(
+                    'Explore trending movies and\nget tickets in your hand',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.85),
+                      fontSize: subtitleFontSize,
+                      height: 1.4,
+                    ),
+                  ),
+                  const Spacer(),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const _PageDot(isActive: true),
+                          const SizedBox(width: 8),
+                          const _PageDot(isActive: false),
+                          const SizedBox(width: 8),
+                          const _PageDot(isActive: false),
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.025),
+                      SizedBox(
+                        width: double.infinity,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const OnboardingScreenTwo(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: isTablet ? 18 : 16,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Next',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: buttonFontSize,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: size.height * 0.02),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cineghar/screens/onboarding_screen_three.dart';
 
-class OnboardingScreenTwo extends StatelessWidget {
-  const OnboardingScreenTwo({super.key});
+class OnboardingScreenThree extends StatelessWidget {
+  const OnboardingScreenThree({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class OnboardingScreenTwo extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/images/onboarding2.png',
+            'assets/images/onboarding3.png',
             fit: BoxFit.cover,
           ),
           Container(
@@ -52,7 +51,7 @@ class OnboardingScreenTwo extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    'Book Tickets\nEffortlessly',
+                    'Enjoy a Premium\nTheatre Experience',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: isTablet ? 40 : 30,
@@ -62,7 +61,7 @@ class OnboardingScreenTwo extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Choose seats, timings, and\ntheatres in seconds.',
+                    'Relax, sit back, and\nenjoy the show',
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.85),
                       fontSize: isTablet ? 18 : 14,
@@ -77,23 +76,16 @@ class OnboardingScreenTwo extends StatelessWidget {
                         children: [
                           _PageDot(isActive: false),
                           const SizedBox(width: 8),
-                          _PageDot(isActive: true),
-                          const SizedBox(width: 8),
                           _PageDot(isActive: false),
+                          const SizedBox(width: 8),
+                          _PageDot(isActive: true),
                         ],
                       ),
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
                         child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const OnboardingScreenThree(),
-                              ),
-                            );
-                          },
+                          onTap: () {},
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                               vertical: 14,

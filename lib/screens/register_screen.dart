@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:cineghar/screens/sign_in_screen.dart';
+import 'package:cineghar/common/my_snackbar.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -149,7 +150,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: InkWell(
                                   onTap: () {
                                     if (_formKey.currentState!.validate()) {
-                                      // Handle registration
+                                      showMySnackBar(
+                                        context: context,
+                                        message: 'Registration successful!',
+                                        color: Colors.green,
+                                      );
+                                      Future.delayed(const Duration(seconds: 1), () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const SignInScreen(),
+                                          ),
+                                        );
+                                      });
                                     }
                                   },
                                   borderRadius: BorderRadius.circular(12),

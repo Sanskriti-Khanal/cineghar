@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cineghar/screens/register_screen.dart';
 import 'package:cineghar/screens/dashboard_screen.dart';
+import 'package:cineghar/common/my_snackbar.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -191,12 +192,19 @@ class _SignInScreenState extends State<SignInScreen> {
                                 child: InkWell(
                                   onTap: () {
                                     if (_formKey.currentState!.validate()) {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const DashboardScreen(),
-                                        ),
+                                      showMySnackBar(
+                                        context: context,
+                                        message: 'Login successful!',
+                                        color: Colors.green,
                                       );
+                                      Future.delayed(const Duration(seconds: 1), () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const DashboardScreen(),
+                                          ),
+                                        );
+                                      });
                                     }
                                   },
                                   borderRadius: BorderRadius.circular(12),

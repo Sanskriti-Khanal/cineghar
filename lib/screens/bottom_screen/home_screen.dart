@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final PageController _bannerController = PageController();
+  int _currentBanner = 0;
+
+  @override
+  void dispose() {
+    _bannerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,6 +23,7 @@ class HomeScreen extends StatelessWidget {
     final primaryColor = theme.colorScheme.primary;
     final size = MediaQuery.of(context).size;
     final isTablet = size.width > 600;
+    final double bannerHeight = isTablet ? 220 : 170;
 
     return Stack(
       children: [
@@ -27,16 +42,91 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: _buildTopBar(primaryColor),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 40),
               Expanded(
                 child: Container(
                   margin: EdgeInsets.zero,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(32),
-                      topRight: Radius.circular(32),
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
                     ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 2),
+                      Transform.translate(
+                        offset: const Offset(0, -40),
+                        child: SizedBox(
+                          height: bannerHeight,
+                          child: PageView.builder(
+                            controller: _bannerController,
+                            itemCount: 3,
+                            onPageChanged: (index) {
+                              setState(() {
+                                _currentBanner = index;
+                              });
+                            },
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(24),
+                                  child: Builder(
+                                    builder: (_) {
+                                      if (index == 0) {
+                                        
+                                        return Image.asset(
+                                          'assets/images/home_banner1.png',
+                                          fit: BoxFit.cover,
+                                        );
+                                      }
+                          
+                                      return Container(
+                                        color: Colors.grey[300],
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Banner ${index + 1}',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(3, (index) {
+                          final bool isActive = _currentBanner == index;
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            margin: const EdgeInsets.symmetric(horizontal: 3),
+                            width: isActive ? 18 : 8,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: isActive
+                                  ? primaryColor
+                                  : Colors.grey.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          );
+                        }),
+                      ),
+                      const SizedBox(height: 0),
+                      const Expanded(child: SizedBox.shrink()),
+                    ],
                   ),
                 ),
               ),

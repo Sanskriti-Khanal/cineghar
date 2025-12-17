@@ -12,30 +12,38 @@ class BottomNavigationScreen extends StatefulWidget {
 }
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
-  int _selectedindex = 0;
+  int _selectedIndex = 0;
 
-  List<Widget> lstBottomScreen = [
+  final List<Widget> _bottomScreens = [
     const HomeScreen(),
     const SalesScreen(),
     const LoyaltyScreen(),
     const ProfileScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dashboard"),
-        backgroundColor: const Color.fromARGB(255, 90, 32, 28),
+        title: const Text(
+          "Dashboard",
+        ),
       ),
-              body:lstBottomScreen[_selectedindex],
-              bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                items: const[
-                  BottomNavigationBarItem(icon: Icon(Icons.home),label: "Home"),
-                  BottomNavigationBarItem(icon: Icon(Icons.shop),label: "Sales"),
-                  BottomNavigationBarItem(icon: Icon(Icons.loyalty),label: "Loyalty"),
-                  BottomNavigationBarItem(icon: Icon(Icons.person),label: "Profile"),
-                ]),
+      body: _bottomScreens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.shop), label: "Sales"),
+          BottomNavigationBarItem(icon: Icon(Icons.loyalty), label: "Loyalty"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
     );
   }
 }

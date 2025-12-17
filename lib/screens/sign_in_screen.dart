@@ -1,6 +1,6 @@
+import 'package:cineghar/screens/bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cineghar/screens/register_screen.dart';
-import 'package:cineghar/screens/dashboard_screen.dart';
 import 'package:cineghar/common/my_snackbar.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -33,10 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/images/background.png',
-            fit: BoxFit.cover,
-          ),
+          Image.asset('assets/images/background.png', fit: BoxFit.cover),
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -121,7 +118,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const RegisterScreen(),
+                                        builder: (context) =>
+                                            const RegisterScreen(),
                                       ),
                                     );
                                   },
@@ -197,19 +195,25 @@ class _SignInScreenState extends State<SignInScreen> {
                                         message: 'Login successful!',
                                         color: Colors.green,
                                       );
-                                      Future.delayed(const Duration(seconds: 1), () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => const DashboardScreen(),
-                                          ),
-                                        );
-                                      });
+                                      Future.delayed(
+                                        const Duration(seconds: 1),
+                                        () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const BottomNavigationScreen(),
+                                            ),
+                                          );
+                                        },
+                                      );
                                     }
                                   },
                                   borderRadius: BorderRadius.circular(12),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                    ),
                                     decoration: BoxDecoration(
                                       gradient: const LinearGradient(
                                         begin: Alignment.topLeft,
@@ -222,7 +226,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                       borderRadius: BorderRadius.circular(12),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF550000).withOpacity(0.3),
+                                          color: const Color(
+                                            0xFF550000,
+                                          ).withOpacity(0.3),
                                           blurRadius: 8,
                                           offset: const Offset(0, 4),
                                         ),
@@ -251,7 +257,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                  ),
                                   child: Text(
                                     'Or',
                                     style: TextStyle(
@@ -326,7 +334,10 @@ class _SignInScreenState extends State<SignInScreen> {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: Color(0xFF550000), width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -365,7 +376,10 @@ class _SignInScreenState extends State<SignInScreen> {
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: Color(0xFF550000), width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         suffixIcon: IconButton(
           icon: Icon(
             _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
@@ -407,10 +421,7 @@ class _SignInScreenState extends State<SignInScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: Colors.grey[300]!,
-                width: 1.5,
-              ),
+              border: Border.all(color: Colors.grey[300]!, width: 1.5),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -418,11 +429,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 if (icon == Icons.g_mobiledata)
                   _buildGoogleIcon()
                 else
-                  Icon(
-                    icon,
-                    color: Colors.blue,
-                    size: 24,
-                  ),
+                  Icon(icon, color: Colors.blue, size: 24),
                 const SizedBox(width: 12),
                 Text(
                   label,
@@ -479,4 +486,3 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
-

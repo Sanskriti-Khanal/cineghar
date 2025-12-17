@@ -19,10 +19,7 @@ class OnboardingScreenThree extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/images/onboarding3.png',
-            fit: BoxFit.cover,
-          ),
+          Image.asset('assets/images/onboarding3.png', fit: BoxFit.cover),
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -43,7 +40,10 @@ class OnboardingScreenThree extends StatelessWidget {
                   vertical: verticalPadding,
                 ),
                 child: SizedBox(
-                  height: size.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
+                  height:
+                      size.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -76,6 +76,7 @@ class OnboardingScreenThree extends StatelessWidget {
                           color: Colors.white,
                           fontSize: titleFontSize,
                           fontWeight: FontWeight.bold,
+                          // fontFamily: "Inter Light Italic",
                           height: 1.3,
                         ),
                       ),
@@ -166,4 +167,3 @@ class _PageDot extends StatelessWidget {
     );
   }
 }
-

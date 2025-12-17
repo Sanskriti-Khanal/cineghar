@@ -10,10 +10,24 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _bannerController = PageController();
   int _currentBanner = 0;
+  // Narrower pages so side cards are clearly visible
+  final PageController _movieController = PageController(viewportFraction: 0.6);
+  double _currentMoviePage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _movieController.addListener(() {
+      setState(() {
+        _currentMoviePage = _movieController.page ?? 0;
+      });
+    });
+  }
 
   @override
   void dispose() {
     _bannerController.dispose();
+    _movieController.dispose();
     super.dispose();
   }
 
@@ -124,8 +138,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         }),
                       ),
-                      const SizedBox(height: 0),
-                      const Expanded(child: SizedBox.shrink()),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: _buildNowShowingSection(
+                          primaryColor: primaryColor,
+                          isTablet: isTablet,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -164,6 +183,180 @@ class _HomeScreenState extends State<HomeScreen> {
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.notifications_paused, color: Colors.white),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNowShowingSection({
+    required Color primaryColor,
+    required bool isTablet,
+  }) {
+    final movies = <_MovieCardData>[
+      const _MovieCardData(
+        title: 'Bhagwat',
+        subtitle: 'Hindi | Thriller',
+        imageURL:"https://akamaividz2.zee5.com/image/upload/w_336,h_504,c_scale,f_webp,q_auto:eco/resources/0-0-1z5831123/portrait/1920x7701d4dfe8f34f84d5d8218f4d8ee316b510d0c411f236843508e9724976004dde5.jpg"
+      ),
+      const _MovieCardData(
+        title: 'Oppenheimer',
+        subtitle: 'English | Sci-Fi',
+        imageURL:"https://m.media-amazon.com/images/M/MV5BM2RmYmVmMzctMzc5Ny00MmNiLTgxMGUtYjk1ZDRhYjA2YTU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+      ),
+      const _MovieCardData(
+        title: 'John Wick 4',
+        subtitle: 'English | Action',
+        imageURL: 'https://m.media-amazon.com/images/M/MV5BMDExZGMyOTMtMDgyYi00NGIwLWJhMTEtOTdkZGFjNmZiMTEwXkEyXkFqcGdeQXVyMjM4NTM5NDY@._V1_FMjpg_UX1000_.jpg',
+      ),
+      const _MovieCardData(
+        title: 'Pathaan',
+        subtitle: 'Hindi | Action',
+        imageURL: 'https://upload.wikimedia.org/wikipedia/en/c/c3/Pathaan_film_poster.jpg',
+      ),
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Now Showing',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(0, 0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  'Show all',
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 32),
+          SizedBox(
+            height: isTablet ? 360 : 300,
+            child: PageView.builder(
+              controller: _movieController,
+              itemCount: movies.length,
+              itemBuilder: (context, index) {
+                final movie = movies[index];
+              
+                final double distance =
+                    (_currentMoviePage - index).abs().clamp(0.0, 1.0);
+
+               
+                final double scale = 1.0 - (0.2 * distance);
+
+                return Transform.scale(
+                  scale: scale,
+                  child: _MovieCard(
+                    data: movie,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MovieCardData {
+  final String title;
+  final String subtitle;
+  final String imageURL;
+
+  const _MovieCardData({
+    required this.title,
+    required this.subtitle,
+    required this.imageURL,
+  });
+}
+
+class _MovieCard extends StatelessWidget {
+  final _MovieCardData data;
+
+  const _MovieCard({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.55,
+              // fixed width so side cards peek in clearly
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 10,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.network(
+                  data.imageURL,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey[300],
+                      alignment: Alignment.center,
+                      child: const Icon(Icons.broken_image, color: Colors.grey),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          data.title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          data.subtitle,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.black54,
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
         ),
       ],
     );

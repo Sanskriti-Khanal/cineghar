@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _bannerController = PageController();
   int _currentBanner = 0;
-  // Narrower pages so side cards are clearly visible
   final PageController _movieController = PageController(viewportFraction: 0.6);
   double _currentMoviePage = 0;
 
@@ -36,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final theme = Theme.of(context);
     final primaryColor = theme.colorScheme.primary;
     final size = MediaQuery.of(context).size;
-    final isTablet = size.width > 600;
+    final bool isTablet = size.width > 600;
     final double bannerHeight = isTablet ? 220 : 170;
 
     return Stack(
@@ -57,101 +56,100 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: _buildTopBar(primaryColor),
               ),
               const SizedBox(height: 40),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.zero,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      topRight: Radius.circular(50),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.zero,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 2),
-                      Transform.translate(
-                        offset: const Offset(0, -40),
-                        child: SizedBox(
-                          height: bannerHeight,
-                          child: PageView.builder(
-                            controller: _bannerController,
-                            itemCount: 3,
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentBanner = index;
-                              });
-                            },
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(24),
-                                  child: Builder(
-                                    builder: (_) {
-                                      if (index == 0) {
-                                        
-                                        return Image.asset(
-                                          'assets/images/home_banner1.png',
-                                          fit: BoxFit.cover,
-                                        );
-                                      }
-                          
-                                      return Container(
-                                        color: Colors.grey[300],
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Banner ${index + 1}',
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      );
-                                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 2),
+                        Transform.translate(
+                          offset: const Offset(0, -40),
+                          child: SizedBox(
+                            height: bannerHeight,
+                            child: PageView.builder(
+                              controller: _bannerController,
+                              itemCount: 3,
+                              onPageChanged: (index) {
+                                setState(() {
+                                  _currentBanner = index;
+                                });
+                              },
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
                                   ),
-                                ),
-                              );
-                            },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(24),
+                                    child: Builder(
+                                      builder: (_) {
+                                        if (index == 0) {
+                                          return Image.asset(
+                                            'assets/images/home_banner1.png',
+                                            fit: BoxFit.cover,
+                                          );
+                                        }
+
+                                        return Container(
+                                          color: Colors.grey[300],
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'Banner ${index + 1}',
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(3, (index) {
-                          final bool isActive = _currentBanner == index;
-                          return AnimatedContainer(
-                            duration: const Duration(milliseconds: 250),
-                            margin: const EdgeInsets.symmetric(horizontal: 3),
-                            width: isActive ? 18 : 8,
-                            height: 6,
-                            decoration: BoxDecoration(
-                              color: isActive
-                                  ? primaryColor
-                                  : Colors.grey.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                          );
-                        }),
-                      ),
-                      const SizedBox(height: 8),
-                      Expanded(
-                        child: _buildNowShowingSection(
-                          primaryColor: primaryColor,
-                          isTablet: isTablet,
+                        const SizedBox(height: 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(3, (index) {
+                            final bool isActive = _currentBanner == index;
+                            return AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              margin: const EdgeInsets.symmetric(horizontal: 3),
+                              width: isActive ? 18 : 8,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                color: isActive
+                                    ? primaryColor
+                                    : Colors.grey.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            );
+                          }),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: _buildNowShowingSection(
+                            primaryColor: primaryColor,
+                            isTablet: isTablet,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
       ],
     );
   }
@@ -211,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const _MovieCardData(
         title: 'Pathaan',
         subtitle: 'Hindi | Action',
-        imageURL: 'https://upload.wikimedia.org/wikipedia/en/c/c3/Pathaan_film_poster.jpg',
+        imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi7Jj1HSHylgbNkDcX-rdKp9G7UOXGUUSt2w&s',
       ),
     ];
 
@@ -304,7 +302,6 @@ class _MovieCard extends StatelessWidget {
           child: Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.55,
-              // fixed width so side cards peek in clearly
               margin: const EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),

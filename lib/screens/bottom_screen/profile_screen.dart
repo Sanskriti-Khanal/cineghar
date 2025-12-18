@@ -80,6 +80,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         // Profile avatar with edit button
                         SizedBox(
+                          width: 120,
                           height: 120,
                           child: Stack(
                             alignment: Alignment.center,
@@ -91,8 +92,8 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               ),
                               Positioned(
-                                bottom: 18,
-                                right: size.width * 0.32,
+                                bottom: 10,
+                                right: 10,
                                 child: Container(
                                   width: 26,
                                   height: 26,

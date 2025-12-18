@@ -94,21 +94,49 @@ class _HomeScreenState extends State<HomeScreen> {
                                         if (index == 0) {
                                           return Image.asset(
                                             'assets/images/home_banner1.png',
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.fill,
+                                          );
+                                        } else if (index == 1) {
+                                          return Image.network(
+                                            'https://t4.ftcdn.net/jpg/02/81/07/63/360_F_281076350_HzOotmfZngtpedG18Pz5dPXbidk95pkD.jpg',
+                                            fit: BoxFit.fill,
+                                            loadingBuilder: (context, child, loadingProgress) {
+                                              if (loadingProgress == null) return child;
+                                              return Container(
+                                                color: Colors.grey[300],
+                                                alignment: Alignment.center,
+                                                child: const CircularProgressIndicator(strokeWidth: 2),
+                                              );
+                                            },
+                                            errorBuilder: (context, error, stackTrace) {
+                                              return Container(
+                                                color: Colors.grey[300],
+                                                alignment: Alignment.center,
+                                                child: const Icon(Icons.broken_image, color: Colors.grey),
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          return Image.network(
+                                            'https://static.vecteezy.com/system/resources/thumbnails/001/950/057/small/now-showing-with-electric-bulbs-frame-on-red-curtain-background-free-vector.jpg',
+                                            fit: BoxFit.fill,
+                                            loadingBuilder: (context, child, loadingProgress) {
+                                              if (loadingProgress == null) return child;
+                                              return Container(
+                                                color: Colors.grey[300],
+                                                alignment: Alignment.center,
+                                                child: const CircularProgressIndicator(strokeWidth: 2),
+                                              );
+                                            },
+                                            errorBuilder: (context, error, stackTrace) {
+                                              return Container(
+                                                color: Colors.grey[300],
+                                                alignment: Alignment.center,
+                                                child: const Icon(Icons.broken_image, color: Colors.grey),
+                                              );
+                                            },
                                           );
                                         }
-
-                                        return Container(
-                                          color: Colors.grey[300],
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'Banner ${index + 1}',
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        );
                                       },
                                     ),
                                   ),

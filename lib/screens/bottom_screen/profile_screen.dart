@@ -12,7 +12,6 @@ class ProfileScreen extends StatelessWidget {
 
     return Stack(
       children: [
-        // Top background (red / cinema feel)
         Container(
           height: size.height * 0.28,
           decoration: const BoxDecoration(
@@ -27,11 +26,11 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        // Main white card content
+     
         SafeArea(
           child: Column(
             children: [
-              // CineGhar heading at the top, using your app logo
+
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
                 child: Row(
@@ -59,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // White rounded container
+       
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -78,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Profile avatar with edit button
+                 
                         SizedBox(
                           width: 120,
                           height: 120,
@@ -156,12 +155,12 @@ class ProfileScreen extends StatelessWidget {
 
                         const SizedBox(height: 24),
 
-                        // Logout
+                   
                         Align(
                           alignment: Alignment.centerLeft,
                           child: InkWell(
                             onTap: () {
-                              // TODO: Implement logout navigation
+
                             },
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -228,7 +227,7 @@ class _ProfileMenuItem extends StatelessWidget {
         color: Colors.black38,
       ),
       onTap: () {
-        // TODO: hook up navigation for each item
+        
       },
     );
   }

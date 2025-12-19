@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: _buildTopBar(primaryColor),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 16),
               Expanded(
                 child: SingleChildScrollView(
                   child: Stack(

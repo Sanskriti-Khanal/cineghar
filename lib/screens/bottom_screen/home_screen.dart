@@ -38,8 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final theme = Theme.of(context);
     final primaryColor = theme.colorScheme.primary;
     final size = MediaQuery.of(context).size;
-    final bool isTablet = size.width > 600;
-    final double bannerHeight = isTablet ? 220 : 170;
+    final bool isTablet = size.shortestSide > 600;
+    final double horizontalPadding = isTablet ? 40.0 : 16.0;
+    final double bannerHeight = isTablet ? 260 : 170;
+    final double maxContentWidth = isTablet ? 1200 : double.infinity;
 
     return Stack(
       children: [
@@ -52,66 +54,70 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
+                padding: EdgeInsets.symmetric(
+                  horizontal: horizontalPadding,
+                  vertical: isTablet ? 16 : 12,
                 ),
-                child: _buildTopBar(primaryColor),
+                child: _buildTopBar(primaryColor, isTablet),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: isTablet ? 16 : 12),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      // White container behind banner
-                      Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: bannerHeight - 40),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxContentWidth),
+                    child: SingleChildScrollView(
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          // White container behind banner
+                          Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(top: bannerHeight - 40),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(50),
+                                topRight: Radius.circular(50),
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: isTablet ? bannerHeight - 120 : bannerHeight - 80),
+                                _buildNowShowingSection(
+                                  primaryColor: primaryColor,
+                                  isTablet: isTablet,
+                                  horizontalPadding: horizontalPadding,
+                                ),
+                                SizedBox(height: isTablet ? 24 : 20),
+                                _buildSalesSection(
+                                  primaryColor: primaryColor,
+                                  isTablet: isTablet,
+                                  horizontalPadding: horizontalPadding,
+                                ),
+                                SizedBox(height: isTablet ? 20 : 12),
+                              ],
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: bannerHeight - 90),
-                            _buildNowShowingSection(
-                              primaryColor: primaryColor,
-                              isTablet: isTablet,
-                            ),
-                            const SizedBox(height: 24),
-                            _buildSalesSection(
-                              primaryColor: primaryColor,
-                              isTablet: isTablet,
-                            ),
-                            const SizedBox(height: 16),
-                          ],
-                        ),
-                      ),
-      
-                      Positioned(
-                        top: 0,
-                        left: 16,
-                        right: 16,
-                        child: SizedBox(
-                          height: bannerHeight,
-                          child: PageView.builder(
-                            controller: _bannerController,
-                            itemCount: 3,
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentBanner = index;
-                              });
-                            },
-                            itemBuilder: (context, index) {
+                          Positioned(
+                            top: 0,
+                            left: horizontalPadding,
+                            right: horizontalPadding,
+                            child: SizedBox(
+                              height: bannerHeight,
+                              child: PageView.builder(
+                                controller: _bannerController,
+                                itemCount: 3,
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    _currentBanner = index;
+                                  });
+                                },
+                                itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 0),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(24),
+                                  borderRadius: BorderRadius.circular(isTablet ? 28 : 24),
                                   child: Builder(
                                     builder: (_) {
                                       if (index == 0) {
@@ -168,7 +174,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                  
                       Positioned(
                         top: bannerHeight + 8,
                         left: 0,
@@ -195,6 +200,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -203,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildTopBar(Color primaryColor) {
+  Widget _buildTopBar(Color primaryColor, bool isTablet) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -211,16 +218,16 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Image.asset(
               'assets/images/logo.png',
-              width: 50,
-              height: 50,
+              width: isTablet ? 60 : 50,
+              height: isTablet ? 60 : 50,
               fit: BoxFit.contain,
             ),
-            const SizedBox(width: 10),
-            const Text(
+            SizedBox(width: isTablet ? 16 : 10),
+            Text(
               'CineGhar',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
+                fontSize: isTablet ? 32 : 24,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.5,
               ),
@@ -229,7 +236,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         IconButton(
           onPressed: () {},
-          icon: const Icon(Icons.notifications_paused, color: Colors.white),
+          icon: Icon(
+            Icons.notifications_paused,
+            color: Colors.white,
+            size: isTablet ? 32 : 24,
+          ),
+          iconSize: isTablet ? 32 : 24,
         ),
       ],
     );
@@ -238,19 +250,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildSalesSection({
     required Color primaryColor,
     required bool isTablet,
+    required double horizontalPadding,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Sales',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: isTablet ? 28 : 22,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -272,21 +285,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Show all',
                   style: TextStyle(
                     color: primaryColor,
-                    fontSize: 13,
+                    fontSize: isTablet ? 16 : 13,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: isTablet ? 16 : 12),
           ClipRRect(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(isTablet ? 20 : 16),
             child: Image.asset(
               'assets/images/wednesday_sale.png',
               fit: BoxFit.cover,
               width: double.infinity,
-              height: isTablet ? 180 : 140,
+              height: isTablet ? 220 : 140,
             ),
           ),
         ],
@@ -297,6 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildNowShowingSection({
     required Color primaryColor,
     required bool isTablet,
+    required double horizontalPadding,
   }) {
     final movies = <_MovieCardData>[
       _MovieCardData(
@@ -358,17 +372,17 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Now Showing',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: isTablet ? 28 : 22,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -390,32 +404,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Show all',
                   style: TextStyle(
                     color: primaryColor,
-                    fontSize: 13,
+                    fontSize: isTablet ? 16 : 13,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: isTablet ? 28 : 24),
           SizedBox(
-            height: isTablet ? 360 : 300,
+            height: isTablet ? 380 : 300,
             child: PageView.builder(
               controller: _movieController,
               itemCount: movies.length,
               itemBuilder: (context, index) {
                 final movie = movies[index];
-              
                 final double distance =
                     (_currentMoviePage - index).abs().clamp(0.0, 1.0);
-
-               
                 final double scale = 1.0 - (0.2 * distance);
 
                 return Transform.scale(
                   scale: scale,
                   child: _MovieCard(
                     data: movie,
+                    isTablet: isTablet,
                   ),
                 );
               },
@@ -449,11 +461,16 @@ class _MovieCardData {
 
 class _MovieCard extends StatelessWidget {
   final _MovieCardData data;
+  final bool isTablet;
 
-  const _MovieCard({required this.data});
+  const _MovieCard({required this.data, required this.isTablet});
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final cardWidth = isTablet 
+        ? (size.width * 0.35).clamp(200.0, 350.0)
+        : size.width * 0.55;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -477,20 +494,20 @@ class _MovieCard extends StatelessWidget {
           Expanded(
             child: Center(
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.55,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: cardWidth,
+                margin: EdgeInsets.symmetric(horizontal: isTablet ? 8 : 4),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(isTablet ? 28 : 24),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.15),
-                      blurRadius: 10,
-                      offset: const Offset(0, 6),
+                      blurRadius: isTablet ? 15 : 10,
+                      offset: Offset(0, isTablet ? 8 : 6),
                     ),
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(isTablet ? 28 : 24),
                   child: Image.network(
                     data.imageURL,
                     fit: BoxFit.cover,
@@ -512,26 +529,26 @@ class _MovieCard extends StatelessWidget {
               ),
             ),
           ),
-        const SizedBox(height: 10),
-        Text(
-          data.title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
+          SizedBox(height: isTablet ? 12 : 8),
+          Text(
+            data.title,
+            style: TextStyle(
+              fontSize: isTablet ? 20 : 16,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          data.subtitle,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.black54,
-            fontWeight: FontWeight.w500,
+          SizedBox(height: isTablet ? 4 : 3),
+          Text(
+            data.subtitle,
+            style: TextStyle(
+              fontSize: isTablet ? 14 : 12,
+              color: Colors.black54,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-      ],
+        ],
       ),
     );
   }

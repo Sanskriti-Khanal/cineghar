@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'sales_screen.dart';
+import '../movie_detail_screen.dart';
+import '../all_movies_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -252,7 +255,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SalesScreen(),
+                    ),
+                  );
+                },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   minimumSize: const Size(0, 0),
@@ -289,25 +299,61 @@ class _HomeScreenState extends State<HomeScreen> {
     required bool isTablet,
   }) {
     final movies = <_MovieCardData>[
-      const _MovieCardData(
+      _MovieCardData(
         title: 'Bhagwat',
         subtitle: 'Hindi | Thriller',
-        imageURL:"https://akamaividz2.zee5.com/image/upload/w_336,h_504,c_scale,f_webp,q_auto:eco/resources/0-0-1z5831123/portrait/1920x7701d4dfe8f34f84d5d8218f4d8ee316b510d0c411f236843508e9724976004dde5.jpg"
+        imageURL: "https://akamaividz2.zee5.com/image/upload/w_336,h_504,c_scale,f_webp,q_auto:eco/resources/0-0-1z5831123/portrait/1920x7701d4dfe8f34f84d5d8218f4d8ee316b510d0c411f236843508e9724976004dde5.jpg",
+        synopsis: 'Bhagwat is a thrilling Hindi film that explores intense drama and suspense.',
+        director: 'Unknown Director',
+        rating: 4.0,
+        castImages: [
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+        ],
       ),
-      const _MovieCardData(
+      _MovieCardData(
         title: 'Oppenheimer',
         subtitle: 'English | Sci-Fi',
-        imageURL:"https://m.media-amazon.com/images/M/MV5BM2RmYmVmMzctMzc5Ny00MmNiLTgxMGUtYjk1ZDRhYjA2YTU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        imageURL: "https://m.media-amazon.com/images/M/MV5BM2RmYmVmMzctMzc5Ny00MmNiLTgxMGUtYjk1ZDRhYjA2YTU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        synopsis: 'Oppenheimer is a 2023 biographical thriller film directed by Christopher Nolan about J. Robert Oppenheimer, the theoretical physicist who led the Manhattan Project to develop the first atomic bombs. Starring Cillian Murphy as Oppenheimer, the movie dramatizes his life, work, and his 1954 security hearing, exploring the moral and political conflicts surrounding his role in creating the atomic bomb.',
+        director: 'Christopher Nolan',
+        rating: 5.0,
+        castImages: [
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+        ],
       ),
-      const _MovieCardData(
+      _MovieCardData(
         title: 'John Wick 4',
         subtitle: 'English | Action',
         imageURL: 'https://m.media-amazon.com/images/M/MV5BMDExZGMyOTMtMDgyYi00NGIwLWJhMTEtOTdkZGFjNmZiMTEwXkEyXkFqcGdeQXVyMjM4NTM5NDY@._V1_FMjpg_UX1000_.jpg',
+        synopsis: 'John Wick 4 continues the action-packed saga of the legendary assassin as he faces new challenges and enemies.',
+        director: 'Chad Stahelski',
+        rating: 4.5,
+        castImages: [
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+        ],
       ),
-      const _MovieCardData(
+      _MovieCardData(
         title: 'Pathaan',
         subtitle: 'Hindi | Action',
         imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi7Jj1HSHylgbNkDcX-rdKp9G7UOXGUUSt2w&s',
+        synopsis: 'Pathaan is a high-octane action thriller featuring Shah Rukh Khan in an exciting spy adventure.',
+        director: 'Siddharth Anand',
+        rating: 4.2,
+        castImages: [
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+          'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg',
+        ],
       ),
     ];
 
@@ -327,7 +373,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AllMoviesScreen(),
+                    ),
+                  );
+                },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   minimumSize: const Size(0, 0),
@@ -378,11 +431,19 @@ class _MovieCardData {
   final String title;
   final String subtitle;
   final String imageURL;
+  final String synopsis;
+  final String director;
+  final double rating;
+  final List<String> castImages;
 
   const _MovieCardData({
     required this.title,
     required this.subtitle,
     required this.imageURL,
+    required this.synopsis,
+    required this.director,
+    required this.rating,
+    required this.castImages,
   });
 }
 
@@ -393,47 +454,64 @@ class _MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.55,
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
-                    blurRadius: 10,
-                    offset: const Offset(0, 6),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MovieDetailScreen(
+              title: data.title,
+              subtitle: data.subtitle,
+              imageURL: data.imageURL,
+              synopsis: data.synopsis,
+              director: data.director,
+              rating: data.rating,
+              castImages: data.castImages,
+            ),
+          ),
+        );
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.55,
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 10,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Image.network(
+                    data.imageURL,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey[300],
+                        alignment: Alignment.center,
+                        child: const Icon(Icons.broken_image, color: Colors.grey),
+                      );
+                    },
                   ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Image.network(
-                  data.imageURL,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return const Center(
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.grey[300],
-                      alignment: Alignment.center,
-                      child: const Icon(Icons.broken_image, color: Colors.grey),
-                    );
-                  },
                 ),
               ),
             ),
           ),
-        ),
         const SizedBox(height: 10),
         Text(
           data.title,
@@ -454,6 +532,7 @@ class _MovieCard extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ],
+      ),
     );
   }
 }

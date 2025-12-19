@@ -56,97 +56,121 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: _buildTopBar(primaryColor),
               ),
               const SizedBox(height: 40),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.zero,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 2),
-                        Transform.translate(
-                          offset: const Offset(0, -40),
-                          child: SizedBox(
-                            height: bannerHeight,
-                            child: PageView.builder(
-                              controller: _bannerController,
-                              itemCount: 3,
-                              onPageChanged: (index) {
-                                setState(() {
-                                  _currentBanner = index;
-                                });
-                              },
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(24),
-                                    child: Builder(
-                                      builder: (_) {
-                                        if (index == 0) {
-                                          return Image.asset(
-                                            'assets/images/home_banner1.png',
-                                            fit: BoxFit.fill,
-                                          );
-                                        } else if (index == 1) {
-                                          return Image.network(
-                                            'https://t4.ftcdn.net/jpg/02/81/07/63/360_F_281076350_HzOotmfZngtpedG18Pz5dPXbidk95pkD.jpg',
-                                            fit: BoxFit.fill,
-                                            loadingBuilder: (context, child, loadingProgress) {
-                                              if (loadingProgress == null) return child;
-                                              return Container(
-                                                color: Colors.grey[300],
-                                                alignment: Alignment.center,
-                                                child: const CircularProgressIndicator(strokeWidth: 2),
-                                              );
-                                            },
-                                            errorBuilder: (context, error, stackTrace) {
-                                              return Container(
-                                                color: Colors.grey[300],
-                                                alignment: Alignment.center,
-                                                child: const Icon(Icons.broken_image, color: Colors.grey),
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          return Image.network(
-                                            'https://static.vecteezy.com/system/resources/thumbnails/001/950/057/small/now-showing-with-electric-bulbs-frame-on-red-curtain-background-free-vector.jpg',
-                                            fit: BoxFit.fill,
-                                            loadingBuilder: (context, child, loadingProgress) {
-                                              if (loadingProgress == null) return child;
-                                              return Container(
-                                                color: Colors.grey[300],
-                                                alignment: Alignment.center,
-                                                child: const CircularProgressIndicator(strokeWidth: 2),
-                                              );
-                                            },
-                                            errorBuilder: (context, error, stackTrace) {
-                                              return Container(
-                                                color: Colors.grey[300],
-                                                alignment: Alignment.center,
-                                                child: const Icon(Icons.broken_image, color: Colors.grey),
-                                              );
-                                            },
-                                          );
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      // White container behind banner
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(top: bannerHeight - 40),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(50),
+                            topRight: Radius.circular(50),
                           ),
                         ),
-                        const SizedBox(height: 2),
-                        Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: bannerHeight - 90),
+                            _buildNowShowingSection(
+                              primaryColor: primaryColor,
+                              isTablet: isTablet,
+                            ),
+                            const SizedBox(height: 24),
+                            _buildSalesSection(
+                              primaryColor: primaryColor,
+                              isTablet: isTablet,
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+                        ),
+                      ),
+      
+                      Positioned(
+                        top: 0,
+                        left: 16,
+                        right: 16,
+                        child: SizedBox(
+                          height: bannerHeight,
+                          child: PageView.builder(
+                            controller: _bannerController,
+                            itemCount: 3,
+                            onPageChanged: (index) {
+                              setState(() {
+                                _currentBanner = index;
+                              });
+                            },
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(24),
+                                  child: Builder(
+                                    builder: (_) {
+                                      if (index == 0) {
+                                        return Image.asset(
+                                          'assets/images/home_banner1.png',
+                                          fit: BoxFit.fill,
+                                        );
+                                      } else if (index == 1) {
+                                        return Image.network(
+                                          'https://t4.ftcdn.net/jpg/02/81/07/63/360_F_281076350_HzOotmfZngtpedG18Pz5dPXbidk95pkD.jpg',
+                                          fit: BoxFit.fill,
+                                          loadingBuilder: (context, child, loadingProgress) {
+                                            if (loadingProgress == null) return child;
+                                            return Container(
+                                              color: Colors.grey[300],
+                                              alignment: Alignment.center,
+                                              child: const CircularProgressIndicator(strokeWidth: 2),
+                                            );
+                                          },
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return Container(
+                                              color: Colors.grey[300],
+                                              alignment: Alignment.center,
+                                              child: const Icon(Icons.broken_image, color: Colors.grey),
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        return Image.network(
+                                          'https://static.vecteezy.com/system/resources/thumbnails/001/950/057/small/now-showing-with-electric-bulbs-frame-on-red-curtain-background-free-vector.jpg',
+                                          fit: BoxFit.fill,
+                                          loadingBuilder: (context, child, loadingProgress) {
+                                            if (loadingProgress == null) return child;
+                                            return Container(
+                                              color: Colors.grey[300],
+                                              alignment: Alignment.center,
+                                              child: const CircularProgressIndicator(strokeWidth: 2),
+                                            );
+                                          },
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return Container(
+                                              color: Colors.grey[300],
+                                              alignment: Alignment.center,
+                                              child: const Icon(Icons.broken_image, color: Colors.grey),
+                                            );
+                                          },
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                  
+                      Positioned(
+                        top: bannerHeight + 8,
+                        left: 0,
+                        right: 0,
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(3, (index) {
                             final bool isActive = _currentBanner == index;
@@ -164,20 +188,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }),
                         ),
-                        const SizedBox(height: 8),
-                        Expanded(
-                          child: _buildNowShowingSection(
-                            primaryColor: primaryColor,
-                            isTablet: isTablet,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+        ),
       ],
     );
   }
@@ -211,6 +229,58 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: const Icon(Icons.notifications_paused, color: Colors.white),
         ),
       ],
+    );
+  }
+
+  Widget _buildSalesSection({
+    required Color primaryColor,
+    required bool isTablet,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Sales',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(0, 0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  'Show all',
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              'assets/images/wednesday_sale.png',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: isTablet ? 180 : 140,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -5,8 +5,13 @@ class SalesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Center(child: Text("This is Sales Page"),),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sales'),
+      ),
+      body: const Center(
+        child: Text('This is Sales Page'),
+      ),
     );
   }
 }

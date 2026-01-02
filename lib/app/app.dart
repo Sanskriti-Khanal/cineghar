@@ -14,6 +14,7 @@ class App extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       home: const SplashPage(),
+      restorationScopeId: 'app',
     );
   }
 }

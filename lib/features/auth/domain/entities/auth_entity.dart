@@ -31,3 +31,5 @@ class AuthEntity extends Equatable {
       ];
 }
 
+
+

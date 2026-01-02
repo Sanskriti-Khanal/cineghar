@@ -9,3 +9,5 @@ abstract interface class IAuthRepository {
   Future<Either<Failure, bool>> logout();
 }
 
+
+

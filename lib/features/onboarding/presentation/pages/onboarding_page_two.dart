@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cineghar/screens/onboarding_screen_two.dart';
-import 'package:cineghar/screens/welcome_screen.dart';
+import 'package:cineghar/features/onboarding/presentation/pages/onboarding_page_three.dart';
+import 'package:cineghar/features/welcome/presentation/pages/welcome_page.dart';
 
-class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({super.key});
+class OnboardingPageTwo extends StatelessWidget {
+  const OnboardingPageTwo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class OnboardingScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/images/onboarding1.png',
+            'assets/images/onboarding2.png',
             fit: BoxFit.cover,
           ),
           Container(
@@ -53,7 +53,7 @@ class OnboardingScreen extends StatelessWidget {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const WelcomeScreen(),
+                              builder: (context) => const WelcomePage(),
                             ),
                           );
                         },
@@ -69,7 +69,7 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.04),
                   Text(
-                    'Discover the\nLatest Movies',
+                    'Book Tickets\nEffortlessly',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: titleFontSize,
@@ -79,7 +79,7 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.02),
                   Text(
-                    'Explore trending movies and\nget tickets in your hand',
+                    'Choose seats, timings, and\ntheatres in seconds.',
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.85),
                       fontSize: subtitleFontSize,
@@ -93,11 +93,11 @@ class OnboardingScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const _PageDot(isActive: true),
+                          _PageDot(isActive: false),
                           const SizedBox(width: 8),
-                          const _PageDot(isActive: false),
+                          _PageDot(isActive: true),
                           const SizedBox(width: 8),
-                          const _PageDot(isActive: false),
+                          _PageDot(isActive: false),
                         ],
                       ),
                       SizedBox(height: size.height * 0.025),
@@ -105,9 +105,10 @@ class OnboardingScreen extends StatelessWidget {
                         width: double.infinity,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(
+                            Navigator.push(
+                              context,
                               MaterialPageRoute(
-                                builder: (_) => const OnboardingScreenTwo(),
+                                builder: (context) => const OnboardingPageThree(),
                               ),
                             );
                           },
@@ -162,3 +163,6 @@ class _PageDot extends StatelessWidget {
     );
   }
 }
+
+
+

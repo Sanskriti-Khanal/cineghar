@@ -1,24 +1,24 @@
-import 'package:cineghar/screens/bottom_screen/home_screen.dart';
-import 'package:cineghar/screens/bottom_screen/loyalty_screen.dart';
-import 'package:cineghar/screens/bottom_screen/profile_screen.dart';
-import 'package:cineghar/screens/bottom_screen/sales_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:cineghar/features/dashboard/presentation/pages/home_page.dart';
+import 'package:cineghar/features/dashboard/presentation/pages/sales_page.dart';
+import 'package:cineghar/features/dashboard/presentation/pages/loyalty_page.dart';
+import 'package:cineghar/features/dashboard/presentation/pages/profile_page.dart';
 
-class BottomNavigationScreen extends StatefulWidget {
-  const BottomNavigationScreen({super.key});
+class BottomNavigationPage extends StatefulWidget {
+  const BottomNavigationPage({super.key});
 
   @override
-  State<BottomNavigationScreen> createState() => _BottomNavigationScreenState();
+  State<BottomNavigationPage> createState() => _BottomNavigationPageState();
 }
 
-class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
+class _BottomNavigationPageState extends State<BottomNavigationPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _bottomScreens = [
-    const HomeScreen(),
-    const SalesScreen(),
-    const LoyaltyScreen(),
-    const ProfileScreen(),
+    const HomePage(),
+    const SalesPage(),
+    const LoyaltyPage(),
+    const ProfilePage(),
   ];
 
   @override
@@ -141,3 +141,6 @@ class _NavItem extends StatelessWidget {
     );
   }
 }
+
+
+

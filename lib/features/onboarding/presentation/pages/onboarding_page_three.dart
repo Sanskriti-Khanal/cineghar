@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cineghar/screens/welcome_screen.dart';
+import 'package:cineghar/features/welcome/presentation/pages/welcome_page.dart';
 
-class OnboardingScreenThree extends StatelessWidget {
-  const OnboardingScreenThree({super.key});
+class OnboardingPageThree extends StatelessWidget {
+  const OnboardingPageThree({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class OnboardingScreenThree extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const WelcomeScreen(),
+                                  builder: (context) => const WelcomePage(),
                                 ),
                               );
                             },
@@ -76,7 +76,6 @@ class OnboardingScreenThree extends StatelessWidget {
                           color: Colors.white,
                           fontSize: titleFontSize,
                           fontWeight: FontWeight.bold,
-                          // fontFamily: "Inter Light Italic",
                           height: 1.3,
                         ),
                       ),
@@ -110,7 +109,7 @@ class OnboardingScreenThree extends StatelessWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const WelcomeScreen(),
+                                    builder: (context) => const WelcomePage(),
                                   ),
                                 );
                               },
@@ -167,3 +166,6 @@ class _PageDot extends StatelessWidget {
     );
   }
 }
+
+
+

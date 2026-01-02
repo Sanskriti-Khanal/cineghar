@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cineghar/screens/onboarding_screen_three.dart';
-import 'package:cineghar/screens/welcome_screen.dart';
+import 'package:cineghar/features/onboarding/presentation/pages/onboarding_page_two.dart';
+import 'package:cineghar/features/welcome/presentation/pages/welcome_page.dart';
 
-class OnboardingScreenTwo extends StatelessWidget {
-  const OnboardingScreenTwo({super.key});
+class OnboardingPage extends StatelessWidget {
+  const OnboardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class OnboardingScreenTwo extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/images/onboarding2.png',
+            'assets/images/onboarding1.png',
             fit: BoxFit.cover,
           ),
           Container(
@@ -53,7 +53,7 @@ class OnboardingScreenTwo extends StatelessWidget {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const WelcomeScreen(),
+                              builder: (context) => const WelcomePage(),
                             ),
                           );
                         },
@@ -69,7 +69,7 @@ class OnboardingScreenTwo extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.04),
                   Text(
-                    'Book Tickets\nEffortlessly',
+                    'Discover the\nLatest Movies',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: titleFontSize,
@@ -79,7 +79,7 @@ class OnboardingScreenTwo extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.02),
                   Text(
-                    'Choose seats, timings, and\ntheatres in seconds.',
+                    'Explore trending movies and\nget tickets in your hand',
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.85),
                       fontSize: subtitleFontSize,
@@ -93,11 +93,11 @@ class OnboardingScreenTwo extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _PageDot(isActive: false),
+                          const _PageDot(isActive: true),
                           const SizedBox(width: 8),
-                          _PageDot(isActive: true),
+                          const _PageDot(isActive: false),
                           const SizedBox(width: 8),
-                          _PageDot(isActive: false),
+                          const _PageDot(isActive: false),
                         ],
                       ),
                       SizedBox(height: size.height * 0.025),
@@ -105,10 +105,9 @@ class OnboardingScreenTwo extends StatelessWidget {
                         width: double.infinity,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
+                            Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const OnboardingScreenThree(),
+                                builder: (_) => const OnboardingPageTwo(),
                               ),
                             );
                           },
@@ -163,4 +162,6 @@ class _PageDot extends StatelessWidget {
     );
   }
 }
+
+
 

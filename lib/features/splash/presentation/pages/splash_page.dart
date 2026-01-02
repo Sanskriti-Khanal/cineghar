@@ -1,15 +1,15 @@
-  import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:cineghar/screens/onboarding_screen.dart';
+import 'package:cineghar/features/onboarding/presentation/pages/onboarding_page.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashPageState extends State<SplashPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => const OnboardingScreen(),
+          builder: (_) => const OnboardingPage(),
         ),
       );
     });
@@ -150,4 +150,6 @@ class _SplashScreenState extends State<SplashScreen>
     });
   }
 }
+
+
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MovieDetailScreen extends StatelessWidget {
+class MovieDetailPage extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imageURL;
@@ -9,7 +9,7 @@ class MovieDetailScreen extends StatelessWidget {
   final double rating;
   final List<String> castImages;
 
-  const MovieDetailScreen({
+  const MovieDetailPage({
     super.key,
     required this.title,
     required this.subtitle,
@@ -31,13 +31,11 @@ class MovieDetailScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          // Fixed poster section
           SizedBox(
             height: posterHeight,
             width: double.infinity,
             child: Stack(
               children: [
-                // Movie poster
                 Image.network(
                   imageURL,
                   fit: BoxFit.cover,
@@ -59,7 +57,6 @@ class MovieDetailScreen extends StatelessWidget {
                     );
                   },
                 ),
-                // Gradient overlay at bottom
                 Positioned(
                   bottom: 0,
                   left: 0,
@@ -78,7 +75,6 @@ class MovieDetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Back button
                 SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -94,7 +90,6 @@ class MovieDetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Play button at bottom center
                 Positioned(
                   bottom: 20,
                   left: 0,
@@ -117,7 +112,6 @@ class MovieDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Scrollable content section
           Expanded(
             child: Container(
               width: double.infinity,
@@ -127,7 +121,6 @@ class MovieDetailScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title
                     Text(
                       title,
                       style: const TextStyle(
@@ -137,7 +130,6 @@ class MovieDetailScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    // Genre and Rating
                     Row(
                       children: [
                         Text(
@@ -160,7 +152,6 @@ class MovieDetailScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 24),
-                    // Synopsis
                     Text(
                       synopsis,
                       style: const TextStyle(
@@ -170,7 +161,6 @@ class MovieDetailScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // Director
                     Text(
                       'Director : $director',
                       style: const TextStyle(
@@ -179,7 +169,6 @@ class MovieDetailScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // Cast
                     const Text(
                       'Cast :',
                       style: TextStyle(
@@ -226,7 +215,6 @@ class MovieDetailScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Fixed action buttons at bottom
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(24.0),
@@ -237,7 +225,6 @@ class MovieDetailScreen extends StatelessWidget {
               top: false,
               child: Row(
                 children: [
-                  // Favorite button
                   Container(
                     width: 56,
                     height: 56,
@@ -251,7 +238,6 @@ class MovieDetailScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  // Get Tickets button
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {},
@@ -281,4 +267,6 @@ class MovieDetailScreen extends StatelessWidget {
     );
   }
 }
+
+
 

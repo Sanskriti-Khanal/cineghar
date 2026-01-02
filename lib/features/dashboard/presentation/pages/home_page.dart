@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'sales_screen.dart';
-import '../movie_detail_screen.dart';
-import '../all_movies_screen.dart';
+import 'package:cineghar/features/dashboard/presentation/pages/sales_page.dart';
+import 'package:cineghar/features/movies/presentation/pages/movie_detail_page.dart';
+import 'package:cineghar/features/movies/presentation/pages/all_movies_page.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
   final PageController _bannerController = PageController();
   int _currentBanner = 0;
   final PageController _movieController = PageController(viewportFraction: 0.6);
@@ -69,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Stack(
                         clipBehavior: Clip.none,
                         children: [
-                          // White container behind banner
                           Container(
                             width: double.infinity,
                             margin: EdgeInsets.only(top: bannerHeight - 40),
@@ -272,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SalesScreen(),
+                      builder: (context) => const SalesPage(),
                     ),
                   );
                 },
@@ -391,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AllMoviesScreen(),
+                      builder: (context) => const AllMoviesPage(),
                     ),
                   );
                 },
@@ -476,7 +475,7 @@ class _MovieCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MovieDetailScreen(
+            builder: (context) => MovieDetailPage(
               title: data.title,
               subtitle: data.subtitle,
               imageURL: data.imageURL,
@@ -553,3 +552,6 @@ class _MovieCard extends StatelessWidget {
     );
   }
 }
+
+
+

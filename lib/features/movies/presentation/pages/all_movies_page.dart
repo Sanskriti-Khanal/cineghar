@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'movie_detail_screen.dart';
+import 'package:cineghar/features/movies/presentation/pages/movie_detail_page.dart';
 
 class MovieData {
   final String title;
@@ -21,8 +21,8 @@ class MovieData {
   });
 }
 
-class AllMoviesScreen extends StatelessWidget {
-  const AllMoviesScreen({super.key});
+class AllMoviesPage extends StatelessWidget {
+  const AllMoviesPage({super.key});
 
   static List<MovieData> getAllMovies() {
     return [
@@ -116,7 +116,7 @@ class AllMoviesScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MovieDetailScreen(
+                  builder: (context) => MovieDetailPage(
                     title: movie.title,
                     subtitle: movie.subtitle,
                     imageURL: movie.imageURL,
@@ -197,8 +197,4 @@ class AllMoviesScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
 

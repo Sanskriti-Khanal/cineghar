@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoyaltyScreen extends StatelessWidget {
-  const LoyaltyScreen({super.key});
+class LoyaltyPage extends StatelessWidget {
+  const LoyaltyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,3 +15,6 @@ class LoyaltyScreen extends StatelessWidget {
     );
   }
 }
+
+
+

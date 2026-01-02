@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cineghar/screens/register_screen.dart';
-import 'package:cineghar/screens/sign_in_screen.dart';
+import 'package:cineghar/features/auth/presentation/pages/register_page.dart';
+import 'package:cineghar/features/auth/presentation/pages/login_page.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class WelcomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SignInScreen(),
+                                builder: (context) => const LoginPage(),
                               ),
                             );
                           },
@@ -141,7 +141,7 @@ class WelcomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RegisterScreen(),
+                                builder: (context) => const RegisterPage(),
                               ),
                             );
                           },
@@ -257,4 +257,6 @@ class _SocialIcon extends StatelessWidget {
     );
   }
 }
+
+
 

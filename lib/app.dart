@@ -1,4 +1,4 @@
-import 'package:cineghar/screens/splash_screen.dart';
+import 'package:cineghar/features/splash/presentation/pages/splash_page.dart';
 import 'package:cineghar/themes/theme_data.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: getApplicationTheme(),
-      home: const SplashScreen(),
+      home: const SplashPage(),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cineghar/features/dashboard/presentation/pages/sales_page.dart';
 import 'package:flutter/material.dart';
 
 class SalesScreen extends StatelessWidget {
@@ -5,13 +6,6 @@ class SalesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sales'),
-      ),
-      body: const Center(
-        child: Text('This is Sales Page'),
-      ),
-    );
+    return const SalesPage();
   }
 }

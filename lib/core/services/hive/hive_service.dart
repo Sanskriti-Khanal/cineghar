@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:cineghar/core/constants/hive_table_constant.dart';
 import 'package:cineghar/features/auth/data/models/auth_hive_model.dart';
 

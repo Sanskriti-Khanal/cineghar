@@ -38,8 +38,9 @@ class HiveService {
   }
 
   Future<AuthHiveModel?> loginUser(String email, String password) async {
+    final normalizedEmail = email.toLowerCase().trim();
     final users = _authBox.values.where(
-      (user) => user.email == email && user.password == password,
+      (user) => user.email.toLowerCase().trim() == normalizedEmail && user.password == password,
     );
     if (users.isNotEmpty) {
       return users.first;
@@ -54,7 +55,10 @@ class HiveService {
   }
 
   bool isEmailExists(String email) {
-    final users = _authBox.values.where((user) => user.email == email);
+    final normalizedEmail = email.toLowerCase().trim();
+    final users = _authBox.values.where(
+      (user) => user.email.toLowerCase().trim() == normalizedEmail,
+    );
     return users.isNotEmpty;
   }
 }

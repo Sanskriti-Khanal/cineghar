@@ -7,3 +7,5 @@ class HiveTableConstant {
   static const String authTable = "auth_table";
 }
 
+
+

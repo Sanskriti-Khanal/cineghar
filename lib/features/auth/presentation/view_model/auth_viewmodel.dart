@@ -3,7 +3,6 @@ import 'package:cineghar/features/auth/domain/usecases/login_usecase.dart';
 import 'package:cineghar/features/auth/domain/usecases/register_usecase.dart';
 import 'package:cineghar/features/auth/presentation/state/auth_state.dart';
 
-// Provider
 final authViewmodelProvider = NotifierProvider<AuthViewmodel, AuthState>(
   AuthViewmodel.new,
 );
@@ -56,7 +55,6 @@ class AuthViewmodel extends Notifier<AuthState> {
     );
   }
 
-  // Login
   Future<void> login({required String email, required String password}) async {
     state = state.copyWith(status: AuthStatus.loading);
     final params = LoginUsecaseParams(email: email, password: password);

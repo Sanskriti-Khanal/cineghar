@@ -51,7 +51,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final isTablet = size.width > 600;
     final authState = ref.watch(authViewmodelProvider);
 
-    // Listen for state changes
     ref.listen<AuthState>(authViewmodelProvider, (previous, next) {
       if (next.status == AuthStatus.authenticated) {
         SnackbarUtils.showSuccess(context, 'Login successful!');
@@ -198,9 +197,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   ],
                                 ),
                                 TextButton(
-                                  onPressed: () {
-                                    // Navigate to forgot password screen
-                                  },
+                                  onPressed: () {},
                                   child: const Text(
                                     'Forgot Password?',
                                     style: TextStyle(
@@ -303,17 +300,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             _buildSocialButton(
                               icon: Icons.g_mobiledata,
                               label: 'Continue with Google',
-                              onTap: () {
-                                // Handle Google sign in
-                              },
+                              onTap: () {},
                             ),
                             const SizedBox(height: 16),
                             _buildSocialButton(
                               icon: Icons.facebook,
                               label: 'Continue with Facebook',
-                              onTap: () {
-                                // Handle Facebook sign in
-                              },
+                              onTap: () {},
                             ),
                           ],
                         ),

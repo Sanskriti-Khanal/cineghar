@@ -32,7 +32,6 @@ class AuthHiveModel extends HiveObject {
     this.profilePicture,
   }) : authId = authId ?? const Uuid().v4();
 
-  // From entity
   factory AuthHiveModel.fromEntity(AuthEntity entity) {
     return AuthHiveModel(
       authId: entity.authId,
@@ -45,7 +44,6 @@ class AuthHiveModel extends HiveObject {
     );
   }
 
-  // To entity
   AuthEntity toEntity() {
     return AuthEntity(
       authId: authId,

@@ -6,7 +6,6 @@ import 'package:cineghar/features/auth/data/repositories/auth_repository.dart';
 import 'package:cineghar/features/auth/domain/entities/auth_entity.dart';
 import 'package:cineghar/features/auth/domain/repositories/auth_repository.dart';
 
-// Provider
 final getCurrentUsecaseProvider = Provider<GetCurrentUsecase>((ref) {
   final authRepository = ref.read(authRepositoryProvider);
   return GetCurrentUsecase(authRepository: authRepository);

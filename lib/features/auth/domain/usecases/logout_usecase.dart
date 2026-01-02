@@ -5,7 +5,6 @@ import 'package:cineghar/core/usecases/app_usecase.dart';
 import 'package:cineghar/features/auth/data/repositories/auth_repository.dart';
 import 'package:cineghar/features/auth/domain/repositories/auth_repository.dart';
 
-// Provider
 final logoutUsecaseProvider = Provider<LogoutUsecase>((ref) {
   final authRepository = ref.read(authRepositoryProvider);
   return LogoutUsecase(authRepository: authRepository);

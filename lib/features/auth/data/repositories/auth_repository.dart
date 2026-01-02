@@ -7,7 +7,6 @@ import 'package:cineghar/features/auth/data/models/auth_hive_model.dart';
 import 'package:cineghar/features/auth/domain/entities/auth_entity.dart';
 import 'package:cineghar/features/auth/domain/repositories/auth_repository.dart';
 
-// Provider
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
   return AuthRepository(authDataSource: ref.read(authLocalDatasourceProvider));
 });
@@ -68,8 +67,7 @@ class AuthRepository implements IAuthRepository {
   Future<Either<Failure, bool>> register(AuthEntity entity) async {
     try {
       final model = AuthHiveModel.fromEntity(entity);
-      
-      // Check if email already exists
+
       final emailExists = await _authDataSource.isEmailExists(entity.email);
       if (emailExists) {
         return const Left(

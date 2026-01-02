@@ -3,7 +3,6 @@ import 'package:cineghar/core/services/hive/hive_service.dart';
 import 'package:cineghar/features/auth/data/datasources/auth_datasource.dart';
 import 'package:cineghar/features/auth/data/models/auth_hive_model.dart';
 
-// Provider
 final authLocalDatasourceProvider = Provider<AuthLocalDatasource>((ref) {
   final hiveService = ref.watch(hiveServiceProvider);
   return AuthLocalDatasource(hiveService: hiveService);
@@ -17,7 +16,6 @@ class AuthLocalDatasource implements IAuthDatasource {
 
   @override
   Future<AuthHiveModel?> getCurrentUser() async {
-    // TODO: Implement getCurrentUser with session management
     return null;
   }
 
@@ -44,7 +42,6 @@ class AuthLocalDatasource implements IAuthDatasource {
   @override
   Future<bool> register(AuthHiveModel model) async {
     try {
-      // Check if email already exists
       if (_hiveService.isEmailExists(model.email)) {
         return false;
       }

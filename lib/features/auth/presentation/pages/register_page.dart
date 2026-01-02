@@ -66,7 +66,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final isTablet = size.width > 600;
     final authState = ref.watch(authViewmodelProvider);
 
-    // Listen for state changes
     ref.listen<AuthState>(authViewmodelProvider, (previous, next) {
       if (next.status == AuthStatus.error && next.errorMessage != null) {
         SnackbarUtils.showError(context, next.errorMessage!);

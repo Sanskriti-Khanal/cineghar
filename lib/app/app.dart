@@ -1,5 +1,5 @@
+import 'package:cineghar/app/theme/app_theme.dart';
 import 'package:cineghar/features/splash/presentation/pages/splash_page.dart';
-import 'package:cineghar/themes/theme_data.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -8,12 +8,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'CineGhar',
       debugShowCheckedModeBanner: false,
-      theme: getApplicationTheme(),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       home: const SplashPage(),
     );
   }
 }
-
-
 

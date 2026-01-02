@@ -553,3 +553,5 @@ class _MovieCard extends StatelessWidget {
   }
 }
 
+
+

@@ -51,6 +51,56 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
+  Future<Either<Failure, AuthEntity>> getProfile() async {
+    if (!await _networkInfo.isConnected) {
+      return const Left(
+        ApiFailure(message: "No internet. Connect to load profile."),
+      );
+    }
+    try {
+      final user = await _authRemoteDataSource.getProfile();
+      if (user != null) {
+        return Right(user.toEntity());
+      }
+      return const Left(ApiFailure(message: "Failed to load profile"));
+    } on DioException catch (e) {
+      return Left(
+        ApiFailure(
+          message: e.response?.data['message'] ?? "Failed to load profile",
+          statusCode: e.response?.statusCode,
+        ),
+      );
+    } catch (e) {
+      return Left(ApiFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthEntity>> uploadProfileImage(dynamic file) async {
+    if (!await _networkInfo.isConnected) {
+      return const Left(
+        ApiFailure(message: "No internet. Connect to upload image."),
+      );
+    }
+    try {
+      final user = await _authRemoteDataSource.uploadProfileImage(file);
+      if (user != null) {
+        return Right(user.toEntity());
+      }
+      return const Left(ApiFailure(message: "Failed to upload image"));
+    } on DioException catch (e) {
+      return Left(
+        ApiFailure(
+          message: e.response?.data['message'] ?? "Failed to upload image",
+          statusCode: e.response?.statusCode,
+        ),
+      );
+    } catch (e) {
+      return Left(ApiFailure(message: e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, AuthEntity>> login(
     String email,
     String password,

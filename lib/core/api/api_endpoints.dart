@@ -27,6 +27,19 @@ class ApiEndpoints {
   static const String auth = '/auth';
   static const String register = '/auth/register';
   static const String login = '/auth/login';
+  static const String whoami = '/auth/whoami';
+  static const String updateProfile = '/auth/update-profile';
   static String userById(String id) => '/auth/$id';
   static const String users = '/auth';
+
+  /// Base URL without /api for serving uploads (e.g. profile images).
+  static String get hostBaseUrl {
+    if (Platform.isIOS) {
+      return 'http://localhost:5050';
+    } else if (Platform.isAndroid) {
+      return 'http://10.0.2.2:5050';
+    } else {
+      return 'http://localhost:5050';
+    }
+  }
 }

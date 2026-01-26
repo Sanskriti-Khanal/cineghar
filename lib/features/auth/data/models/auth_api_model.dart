@@ -7,6 +7,7 @@ class AuthApiModel {
   final String? password;
   final String? dateOfBirth;
   final String? role;
+  final String? imageUrl;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -17,6 +18,7 @@ class AuthApiModel {
     this.password,
     this.dateOfBirth,
     this.role,
+    this.imageUrl,
     this.createdAt,
     this.updatedAt,
   });
@@ -28,6 +30,7 @@ class AuthApiModel {
       email: json['email'] ?? '',
       dateOfBirth: json['dateOfBirth'],
       role: json['role'],
+      imageUrl: json['imageUrl']?.toString(),
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'])
           : null,
@@ -44,6 +47,7 @@ class AuthApiModel {
       'email': email,
       'dateOfBirth': dateOfBirth,
       'role': role,
+      'imageUrl': imageUrl,
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
     };
@@ -55,8 +59,8 @@ class AuthApiModel {
       authId: id,
       fullName: name,
       email: email,
-      username: email.split('@').first, // Use email prefix as username
-      profilePicture: null,
+      username: email.split('@').first,
+      profilePicture: imageUrl,
     );
   }
 

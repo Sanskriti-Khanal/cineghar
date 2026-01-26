@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -28,9 +30,55 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
        _userSessionService = userSessionService;
 
   @override
-  Future<AuthApiModel?> getUserById(String authId) {
-    // TODO: implement getUserById
-    throw UnimplementedError();
+  Future<AuthApiModel?> getUserById(String authId) async {
+    try {
+      final response = await _apiClient.get(ApiEndpoints.userById(authId));
+      if (response.data['success'] == true && response.data['data'] != null) {
+        final data = response.data['data'] as Map<String, dynamic>;
+        return AuthApiModel.fromJson(data);
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AuthApiModel?> getProfile() async {
+    try {
+      final response = await _apiClient.get(ApiEndpoints.whoami);
+      if (response.data['success'] == true && response.data['data'] != null) {
+        final data = response.data['data'] as Map<String, dynamic>;
+        return AuthApiModel.fromJson(data);
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AuthApiModel?> uploadProfileImage(dynamic file) async {
+    try {
+      final path = file is File ? file.path : (file as dynamic).path as String;
+      final formData = FormData.fromMap({
+        'image': await MultipartFile.fromFile(
+          path,
+          filename: path.split(Platform.pathSeparator).last,
+        ),
+      });
+      final response = await _apiClient.uploadFile(
+        ApiEndpoints.updateProfile,
+        formData: formData,
+      );
+      if (response.data['success'] == true && response.data['data'] != null) {
+        final data = response.data['data'] as Map<String, dynamic>;
+        return AuthApiModel.fromJson(data);
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

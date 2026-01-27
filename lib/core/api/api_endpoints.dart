@@ -32,7 +32,7 @@ class ApiEndpoints {
   static String userById(String id) => '/auth/$id';
   static const String users = '/auth';
 
-  /// Base URL without /api for serving uploads (e.g. profile images).
+  /// Base URL without /api for serving uploads (e.g. profile images). Used to build full image URLs.
   static String get hostBaseUrl {
     if (Platform.isIOS) {
       return 'http://localhost:5050';

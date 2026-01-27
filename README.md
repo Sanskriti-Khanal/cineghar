@@ -1,6 +1,12 @@
 # cineghar
 
-A new Flutter project.
+A Flutter app for CineGhar.
+
+## Sprint 5
+
+- **Upload image to server**: Profile page supports picking an image from gallery and uploading via `PUT /api/auth/update-profile` (multipart, field `image`).
+- **Display image from server**: Profile avatar loads from server using `GET /api/auth/whoami` and shows image via `hostBaseUrl` + `imageUrl`.
+- **Tests**: 5+ unit tests (getProfile, uploadProfileImage, AuthApiModel, ApiEndpoints, AuthEntity) and 5+ widget tests (ProfilePage, BottomNavigationPage, WelcomePage).
 
 ## Getting Started
 

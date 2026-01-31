@@ -1,7 +1,7 @@
 import 'package:cineghar/features/auth/presentation/state/auth_state.dart';
 import 'package:cineghar/features/auth/presentation/view_model/auth_viewmodel.dart';
 import 'package:cineghar/core/utils/snackbar_utils.dart';
-import 'package:cineghar/screens/bottom_navigation_screen.dart';
+import 'package:cineghar/features/dashboard/presentation/pages/bottom_navigation_page.dart';
 import 'package:cineghar/features/auth/presentation/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,7 +58,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const BottomNavigationScreen(),
+            builder: (context) => const BottomNavigationPage(),
           ),
         );
       } else if (next.status == AuthStatus.error &&

@@ -1,11 +1,11 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:cineghar/core/error/failures.dart';
 import 'package:cineghar/features/auth/domain/repositories/auth_repository.dart';
 import 'package:cineghar/features/auth/domain/usecases/logout_usecase.dart';
-import 'package:dartz/dartz.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../helpers/mock_auth_repository.dart';
+class MockAuthRepository extends Mock implements IAuthRepository {}
 
 void main() {
   late LogoutUsecase usecase;
@@ -16,22 +16,64 @@ void main() {
     usecase = LogoutUsecase(authRepository: mockRepository);
   });
 
-  test('should return true when logout succeeds', () async {
-    when(() => mockRepository.logout()).thenAnswer((_) async => const Right(true));
+  group('LogoutUsecase', () {
+    test('should return true when logout is successful', () async {
+      // Arrange
+      when(() => mockRepository.logout())
+          .thenAnswer((_) async => const Right(true));
 
-    final result = await usecase.call();
+      // Act
+      final result = await usecase();
 
-    expect(result, const Right(true));
-    verify(() => mockRepository.logout()).called(1);
-  });
+      // Assert
+      expect(result, const Right(true));
+      verify(() => mockRepository.logout()).called(1);
+      verifyNoMoreInteractions(mockRepository);
+    });
 
-  test('should return Failure when logout fails', () async {
-    when(() => mockRepository.logout()).thenAnswer((_) async =>
-        const Left(LocalDatabaseFailure(message: 'Logout failed')));
+    test('should return failure when logout fails', () async {
+      // Arrange
+      const failure = ApiFailure(message: 'Logout failed');
+      when(() => mockRepository.logout())
+          .thenAnswer((_) async => const Left(failure));
 
-    final result = await usecase.call();
+      // Act
+      final result = await usecase();
 
-    expect(result.isLeft(), true);
-    verify(() => mockRepository.logout()).called(1);
+      // Assert
+      expect(result, const Left(failure));
+      verify(() => mockRepository.logout()).called(1);
+      verifyNoMoreInteractions(mockRepository);
+    });
+
+    test('should return LocalDatabaseFailure when clearing local data fails',
+        () async {
+      // Arrange
+      const failure =
+          LocalDatabaseFailure(message: 'Failed to clear local data');
+      when(() => mockRepository.logout())
+          .thenAnswer((_) async => const Left(failure));
+
+      // Act
+      final result = await usecase();
+
+      // Assert
+      expect(result, const Left(failure));
+      verify(() => mockRepository.logout()).called(1);
+    });
+
+    test('should return NetworkFailure when there is no internet', () async {
+      // Arrange
+      const failure = NetworkFailure();
+      when(() => mockRepository.logout())
+          .thenAnswer((_) async => const Left(failure));
+
+      // Act
+      final result = await usecase();
+
+      // Assert
+      expect(result, const Left(failure));
+      verify(() => mockRepository.logout()).called(1);
+    });
   });
 }

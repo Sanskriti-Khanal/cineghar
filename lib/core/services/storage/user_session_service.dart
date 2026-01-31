@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cineghar/core/providers/shared_prefs_provider.dart';
 
 final userSessionServiceProvider = Provider<UserSessionService>((ref) {
   return UserSessionService(prefs: ref.read(sharedPreferencesProvider));

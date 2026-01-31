@@ -1,12 +1,12 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:cineghar/core/error/failures.dart';
 import 'package:cineghar/features/auth/domain/entities/auth_entity.dart';
 import 'package:cineghar/features/auth/domain/repositories/auth_repository.dart';
 import 'package:cineghar/features/auth/domain/usecases/get_current_usecase.dart';
-import 'package:dartz/dartz.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../helpers/mock_auth_repository.dart';
+class MockAuthRepository extends Mock implements IAuthRepository {}
 
 void main() {
   late GetCurrentUsecase usecase;
@@ -17,23 +17,109 @@ void main() {
     usecase = GetCurrentUsecase(authRepository: mockRepository);
   });
 
-  test('should return AuthEntity when getCurrentUser succeeds', () async {
-    when(() => mockRepository.getCurrentUser())
-        .thenAnswer((_) async => Right(testAuthEntity));
+  const tUser = AuthEntity(
+    authId: '1',
+    fullName: 'Test User',
+    email: 'test@example.com',
+    username: 'testuser',
+  );
 
-    final result = await usecase.call();
+  group('GetCurrentUsecase', () {
+    test('should return AuthEntity when user is authenticated', () async {
+      // Arrange
+      when(
+        () => mockRepository.getCurrentUser(),
+      ).thenAnswer((_) async => const Right(tUser));
 
-    expect(result, Right(testAuthEntity));
-    verify(() => mockRepository.getCurrentUser()).called(1);
-  });
+      // Act
+      final result = await usecase();
 
-  test('should return Failure when no user is logged in', () async {
-    when(() => mockRepository.getCurrentUser()).thenAnswer((_) async =>
-        const Left(LocalDatabaseFailure(message: 'No user logged in')));
+      // Assert
+      expect(result, const Right(tUser));
+      verify(() => mockRepository.getCurrentUser()).called(1);
+      verifyNoMoreInteractions(mockRepository);
+    });
 
-    final result = await usecase.call();
+    test('should return failure when user is not authenticated', () async {
+      // Arrange
+      const failure = ApiFailure(message: 'User not authenticated');
+      when(
+        () => mockRepository.getCurrentUser(),
+      ).thenAnswer((_) async => const Left(failure));
 
-    expect(result.isLeft(), true);
-    verify(() => mockRepository.getCurrentUser()).called(1);
+      // Act
+      final result = await usecase();
+
+      // Assert
+      expect(result, const Left(failure));
+      verify(() => mockRepository.getCurrentUser()).called(1);
+      verifyNoMoreInteractions(mockRepository);
+    });
+
+    test(
+      'should return LocalDatabaseFailure when local storage fails',
+      () async {
+        // Arrange
+        const failure = LocalDatabaseFailure(
+          message: 'Failed to read user data',
+        );
+        when(
+          () => mockRepository.getCurrentUser(),
+        ).thenAnswer((_) async => const Left(failure));
+
+        // Act
+        final result = await usecase();
+
+        // Assert
+        expect(result, const Left(failure));
+        verify(() => mockRepository.getCurrentUser()).called(1);
+      },
+    );
+
+    test(
+      'should return NetworkFailure when fetching from remote fails',
+      () async {
+        // Arrange
+        const failure = NetworkFailure();
+        when(
+          () => mockRepository.getCurrentUser(),
+        ).thenAnswer((_) async => const Left(failure));
+
+        // Act
+        final result = await usecase();
+
+        // Assert
+        expect(result, const Left(failure));
+        verify(() => mockRepository.getCurrentUser()).called(1);
+      },
+    );
+
+    test('should return user with all fields populated', () async {
+      // Arrange
+      const userWithAllFields = AuthEntity(
+        authId: '1',
+        fullName: 'Test User',
+        email: 'test@example.com',
+        username: 'testuser',
+        phoneNumber: '1234567890',
+        profilePicture: 'https://example.com/pic.jpg',
+      );
+      when(
+        () => mockRepository.getCurrentUser(),
+      ).thenAnswer((_) async => const Right(userWithAllFields));
+
+      // Act
+      final result = await usecase();
+
+      // Assert
+      result.fold((failure) => fail('Should return user'), (user) {
+        expect(user.authId, '1');
+        expect(user.fullName, 'Test User');
+        expect(user.email, 'test@example.com');
+        expect(user.username, 'testuser');
+        expect(user.phoneNumber, '1234567890');
+        expect(user.profilePicture, 'https://example.com/pic.jpg');
+      });
+    });
   });
 }

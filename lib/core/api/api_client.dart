@@ -121,13 +121,22 @@ class ApiClient {
     );
   }
 
-  // Multipart request for file uploads
+  // Multipart request for file uploads (usePut: true for PUT /api/auth/update-profile)
   Future<Response> uploadFile(
     String path, {
     required FormData formData,
+    bool usePut = false,
     Options? options,
     ProgressCallback? onSendProgress,
   }) async {
+    if (usePut) {
+      return _dio.put(
+        path,
+        data: formData,
+        options: options,
+        onSendProgress: onSendProgress,
+      );
+    }
     return _dio.post(
       path,
       data: formData,

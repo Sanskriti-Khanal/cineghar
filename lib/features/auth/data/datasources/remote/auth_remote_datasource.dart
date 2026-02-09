@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:cineghar/core/api/api_client.dart';
 import 'package:cineghar/core/api/api_endpoints.dart';
@@ -10,12 +9,6 @@ import 'package:cineghar/features/auth/data/datasources/auth_datasource.dart';
 import 'package:cineghar/features/auth/data/models/auth_api_model.dart';
 
 // provider
-final authRemoteDataSourceProvider = Provider<IAuthRemoteDataSource>((ref) {
-  return AuthRemoteDatasource(
-    apiClient: ref.read(apiClientProvider),
-    userSessionService: ref.read(userSessionServiceProvider),
-  );
-});
 
 class AuthRemoteDatasource implements IAuthRemoteDataSource {
   final ApiClient _apiClient;
@@ -70,6 +63,7 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
       final response = await _apiClient.uploadFile(
         ApiEndpoints.updateProfile,
         formData: formData,
+        usePut: true, // backend expects PUT /api/auth/update-profile
       );
       if (response.data['success'] == true && response.data['data'] != null) {
         final data = response.data['data'] as Map<String, dynamic>;
@@ -135,6 +129,18 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
         return registeredUser;
       }
       return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      // Clear JWT token from secure storage
+      await _storage.delete(key: _tokenKey);
+      // Clear user session from shared preferences
+      await _userSessionService.clearSession();
     } catch (e) {
       rethrow;
     }

@@ -87,7 +87,9 @@ void main() {
       ).thenAnswer((_) async => const Right(tUser));
 
       // Act
-      await usecase(const LoginUsecaseParams(email: tEmail, password: tPassword));
+      await usecase(
+        const LoginUsecaseParams(email: tEmail, password: tPassword),
+      );
 
       // Assert
       verify(() => mockRepository.login(tEmail, tPassword)).called(1);

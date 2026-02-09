@@ -10,4 +10,3 @@ abstract interface class IAuthRepository {
   Future<Either<Failure, AuthEntity>> uploadProfileImage(dynamic file);
   Future<Either<Failure, bool>> logout();
 }
-

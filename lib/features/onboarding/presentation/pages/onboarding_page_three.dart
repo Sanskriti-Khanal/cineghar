@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cineghar/app/theme/app_colors.dart';
 import 'package:cineghar/features/welcome/presentation/pages/welcome_page.dart';
+import 'package:cineghar/core/services/storage/user_session_service.dart';
 
-class OnboardingPageThree extends StatelessWidget {
+class OnboardingPageThree extends ConsumerWidget {
   const OnboardingPageThree({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     final isTablet = size.width > 600;
     final horizontalPadding = isTablet ? 48.0 : 24.0;
@@ -26,8 +29,8 @@ class OnboardingPageThree extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(200, 0, 0, 0),
-                  Color.fromARGB(220, 0, 0, 0),
+                  Colors.black87,
+                  Colors.black,
                 ],
               ),
             ),
@@ -52,6 +55,7 @@ class OnboardingPageThree extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () {
+                              ref.read(userSessionServiceProvider).setFirstLaunchCompleted();
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -64,6 +68,7 @@ class OnboardingPageThree extends StatelessWidget {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: skipFontSize,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -106,6 +111,7 @@ class OnboardingPageThree extends StatelessWidget {
                             width: double.infinity,
                             child: GestureDetector(
                               onTap: () {
+                                ref.read(userSessionServiceProvider).setFirstLaunchCompleted();
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -118,14 +124,15 @@ class OnboardingPageThree extends StatelessWidget {
                                   vertical: size.height * 0.018,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(40),
+                                  gradient: AppColors.primaryGradient,
+                                  borderRadius: BorderRadius.circular(24),
+                                  boxShadow: AppColors.buttonShadow,
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
                                   'Next',
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontSize: buttonFontSize,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -155,13 +162,16 @@ class _PageDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       height: 8,
       width: isActive ? 18 : 8,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : Colors.white.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(10),
+        color: isActive
+            ? theme.colorScheme.primary
+            : Colors.white.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(12),
       ),
     );
   }

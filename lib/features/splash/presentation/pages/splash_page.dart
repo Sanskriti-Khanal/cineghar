@@ -1,15 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cineghar/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:cineghar/features/welcome/presentation/pages/welcome_page.dart';
+import 'package:cineghar/features/dashboard/presentation/pages/bottom_navigation_page.dart';
+import 'package:cineghar/core/services/storage/user_session_service.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
+class _SplashPageState extends ConsumerState<SplashPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
@@ -53,11 +57,22 @@ class _SplashPageState extends State<SplashPage>
 
     Timer(const Duration(seconds: 3), () {
       if (!mounted) return;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => const OnboardingPage(),
-        ),
-      );
+      
+      final sessionService = ref.read(userSessionServiceProvider);
+      
+      if (sessionService.isFirstLaunch()) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const OnboardingPage()),
+        );
+      } else if (sessionService.isLoggedIn()) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const BottomNavigationPage()),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const WelcomePage()),
+        );
+      }
     });
   }
 

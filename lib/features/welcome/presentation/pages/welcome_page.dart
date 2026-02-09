@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cineghar/app/theme/app_colors.dart';
 import 'package:cineghar/features/auth/presentation/pages/register_page.dart';
 import 'package:cineghar/features/auth/presentation/pages/login_page.dart';
 
@@ -20,13 +21,13 @@ class WelcomePage extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.5),
-                  Colors.black.withOpacity(0.7),
+                  Colors.black87,
+                  Colors.black,
                 ],
               ),
             ),
@@ -54,13 +55,6 @@ class WelcomePage extends StatelessWidget {
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 2,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black54,
-                                blurRadius: 8,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
                           ),
                         ),
                       ],
@@ -106,14 +100,14 @@ class WelcomePage extends StatelessWidget {
                               ),
                             );
                           },
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(24),
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 18),
                             decoration: BoxDecoration(
                               color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(24),
                               border: Border.all(
-                                color: Colors.white,
+                                color: Colors.white.withOpacity(0.9),
                                 width: 1.5,
                               ),
                             ),
@@ -149,21 +143,15 @@ class WelcomePage extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 18),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF5F5DC),
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
+                              color: AppColors.secondary,
+                              borderRadius: BorderRadius.circular(24),
+                              boxShadow: AppColors.buttonShadow,
                             ),
                             alignment: Alignment.center,
                             child: const Text(
                               'SIGN UP',
                               style: TextStyle(
-                                color: Color(0xFF550000),
+                                color: AppColors.primary,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1.5,
@@ -229,7 +217,7 @@ class _SocialIcon extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(30),
         child: Container(
           width: 56,
           height: 56,

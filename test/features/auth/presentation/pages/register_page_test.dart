@@ -1,18 +1,40 @@
+import 'package:cineghar/core/providers/shared_prefs_provider.dart';
+import 'package:cineghar/features/auth/domain/usecases/get_current_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/get_profile_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/login_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/register_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/upload_profile_image_usecase.dart';
+import 'package:cineghar/features/auth/presentation/providers/auth_providers.dart';
+import 'package:cineghar/features/auth/presentation/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cineghar/features/auth/domain/usecases/login_usecase.dart';
-import 'package:cineghar/features/auth/domain/usecases/register_usecase.dart';
-import 'package:cineghar/features/auth/presentation/pages/register_page.dart';
 import 'package:mocktail/mocktail.dart';
+
+import '../../../../test_helper.dart';
 
 class MockRegisterUsecase extends Mock implements RegisterUsecase {}
 
 class MockLoginUsecase extends Mock implements LoginUsecase {}
 
+class MockLogoutUsecase extends Mock implements LogoutUsecase {}
+
+class MockGetCurrentUsecase extends Mock implements GetCurrentUsecase {}
+
+class MockGetProfileUsecase extends Mock implements GetProfileUsecase {}
+
+class MockUploadProfileImageUsecase extends Mock
+    implements UploadProfileImageUsecase {}
+
 void main() {
   late MockRegisterUsecase mockRegisterUsecase;
   late MockLoginUsecase mockLoginUsecase;
+  late MockLogoutUsecase mockLogoutUsecase;
+  late MockGetCurrentUsecase mockGetCurrentUsecase;
+  late MockGetProfileUsecase mockGetProfileUsecase;
+  late MockUploadProfileImageUsecase mockUploadProfileImageUsecase;
+  late MockSharedPreferences mockSharedPreferences;
 
   setUpAll(() {
     registerFallbackValue(
@@ -34,13 +56,24 @@ void main() {
   setUp(() {
     mockRegisterUsecase = MockRegisterUsecase();
     mockLoginUsecase = MockLoginUsecase();
+    mockLogoutUsecase = MockLogoutUsecase();
+    mockGetCurrentUsecase = MockGetCurrentUsecase();
+    mockGetProfileUsecase = MockGetProfileUsecase();
+    mockUploadProfileImageUsecase = MockUploadProfileImageUsecase();
+    mockSharedPreferences = MockSharedPreferences();
   });
 
   Widget createTestWidget() {
     return ProviderScope(
       overrides: [
+        sharedPreferencesProvider.overrideWithValue(mockSharedPreferences),
         registerUsecaseProvider.overrideWithValue(mockRegisterUsecase),
         loginUsecaseProvider.overrideWithValue(mockLoginUsecase),
+        logoutUsecaseProvider.overrideWithValue(mockLogoutUsecase),
+        getCurrentUsecaseProvider.overrideWithValue(mockGetCurrentUsecase),
+        getProfileUsecaseProvider.overrideWithValue(mockGetProfileUsecase),
+        uploadProfileImageUsecaseProvider
+            .overrideWithValue(mockUploadProfileImageUsecase),
       ],
       child: const MaterialApp(home: RegisterPage()),
     );

@@ -3,12 +3,16 @@
 part of 'auth_hive_model.dart';
 
 // **************************************************************************
-// TypeAdapterGenerator
+// HiveObjectGenerator
+// **************************************************************************
+
+// **************************************************************************
+// HiveGenerator
 // **************************************************************************
 
 class AuthHiveModelAdapter extends TypeAdapter<AuthHiveModel> {
   @override
-  final int typeId = 0;
+  final int typeId = HiveTableConstant.authTypeId;
 
   @override
   AuthHiveModel read(BinaryReader reader) {
@@ -29,22 +33,21 @@ class AuthHiveModelAdapter extends TypeAdapter<AuthHiveModel> {
 
   @override
   void write(BinaryWriter writer, AuthHiveModel obj) {
-    writer
-      ..writeByte(7)
-      ..writeByte(0)
-      ..write(obj.authId)
-      ..writeByte(1)
-      ..write(obj.fullName)
-      ..writeByte(2)
-      ..write(obj.email)
-      ..writeByte(3)
-      ..write(obj.phoneNumber)
-      ..writeByte(4)
-      ..write(obj.username)
-      ..writeByte(5)
-      ..write(obj.password)
-      ..writeByte(6)
-      ..write(obj.profilePicture);
+    writer.writeByte(7);
+    writer.writeByte(0);
+    writer.write(obj.authId);
+    writer.writeByte(1);
+    writer.write(obj.fullName);
+    writer.writeByte(2);
+    writer.write(obj.email);
+    writer.writeByte(3);
+    writer.write(obj.phoneNumber);
+    writer.writeByte(4);
+    writer.write(obj.username);
+    writer.writeByte(5);
+    writer.write(obj.password);
+    writer.writeByte(6);
+    writer.write(obj.profilePicture);
   }
 
   @override
@@ -54,6 +57,31 @@ class AuthHiveModelAdapter extends TypeAdapter<AuthHiveModel> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is AuthHiveModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      runtimeType == other.runtimeType &&
+      typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+AuthHiveModel _$AuthHiveModelFromJson(Map<String, dynamic> json) => AuthHiveModel(
+      authId: json['authId'] as String?,
+      fullName: json['fullName'] as String,
+      email: json['email'] as String,
+      phoneNumber: json['phoneNumber'] as String?,
+      username: json['username'] as String,
+      password: json['password'] as String?,
+      profilePicture: json['profilePicture'] as String?,
+    );
+
+Map<String, dynamic> _$AuthHiveModelToJson(AuthHiveModel instance) =>
+    <String, dynamic>{
+      'authId': instance.authId,
+      'fullName': instance.fullName,
+      'email': instance.email,
+      'phoneNumber': instance.phoneNumber,
+      'username': instance.username,
+      'password': instance.password,
+      'profilePicture': instance.profilePicture,
+    };

@@ -1,3 +1,4 @@
 
 
 feat: add loyalty and sales viewmodel states
+feat: add loyalty and sales viewmodel states

@@ -4,3 +4,4 @@ feat: add loyalty and sales viewmodel states
 feat: add loyalty and sales viewmodel states
 feat: wire loyalty viewmodel to getMyLoyalty usecase
 feat: wire sales viewmodel to getActiveOffers usecase
+feat: implement loyalty summary UI on LoyaltyPage

@@ -9,3 +9,4 @@ feat: show tier, this-month points and stats on LoyaltyPage
 feat: replace stub SalesPage with offers list UI
 feat: reuse booking offer entities for sales feature
 refactor: share loyalty and offers domain across booking and dashboard
+feat: add basic error handling states for loyalty and sales screens

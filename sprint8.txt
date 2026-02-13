@@ -11,3 +11,4 @@ feat: reuse booking offer entities for sales feature
 refactor: share loyalty and offers domain across booking and dashboard
 feat: add basic error handling states for loyalty and sales screens
 style: align loyalty and sales screens with CineGhar web design
+test: add widget tests for LoyaltyPage summary rendering

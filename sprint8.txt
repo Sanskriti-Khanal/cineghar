@@ -15,3 +15,4 @@ test: add widget tests for LoyaltyPage summary rendering
 test: add widget tests for SalesPage offers list
 test: add unit tests for initiateKhaltiPayment usecase
 chore: run lints and fix issues in loyalty and sales modules
+chore: update sprint documentation for loyalty and sales implementation

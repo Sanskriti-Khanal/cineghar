@@ -15,7 +15,7 @@ void main() {
       expect(find.byType(SplashPage), findsOneWidget);
     });
 
-    testWidgets('should display Scaffold', (tester) async {
+    testWidgets('should display Scaffold structure', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: SplashPage(),

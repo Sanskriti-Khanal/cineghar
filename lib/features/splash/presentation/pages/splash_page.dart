@@ -115,6 +115,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
                         'assets/images/logo.png',
                         width: logoSize,
                         height: logoSize,
+                        semanticLabel: 'CineGhar App Logo',
                       ),
                       const SizedBox(width: 12),
                       SizedBox(

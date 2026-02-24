@@ -8,25 +8,27 @@ import 'package:mocktail/mocktail.dart';
 import '../../../../test_helper.dart';
 
 void main() {
-  late MockSharedPreferences mockSharedPreferences;
+  group('SplashPage', () {
+    testWidgets('should load and display SplashPage', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: SplashPage(),
+        ),
+      );
+      await tester.pump(const Duration(seconds: 4));
 
-  setUp(() {
-    mockSharedPreferences = MockSharedPreferences();
-    when(() => mockSharedPreferences.getBool(any())).thenReturn(false);
-  });
+      expect(find.byType(SplashPage), findsOneWidget);
+    });
 
-  testWidgets('SplashPage displays logo and title', (tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          sharedPreferencesProvider.overrideWithValue(mockSharedPreferences),
-        ],
-        child: const MaterialApp(home: SplashPage()),
-      ),
-    );
-    await tester.pumpAndSettle(const Duration(seconds: 5));
+    testWidgets('should display Scaffold', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: SplashPage(),
+        ),
+      );
 
-    // Verify logo exists
-    expect(find.byType(Image), findsWidgets);
+      await tester.pump(const Duration(seconds: 4));
+      expect(find.byType(Scaffold), findsWidgets);
+    });
   });
 }

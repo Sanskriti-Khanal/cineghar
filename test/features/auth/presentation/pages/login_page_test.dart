@@ -11,6 +11,10 @@ import 'package:cineghar/features/auth/domain/usecases/register_usecase.dart';
 import 'package:cineghar/features/auth/presentation/pages/login_page.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+class MockSharedPreferences extends Mock implements SharedPreferences {}
+
 class MockRegisterUsecase extends Mock implements RegisterUsecase {}
 
 class MockLoginUsecase extends Mock implements LoginUsecase {}

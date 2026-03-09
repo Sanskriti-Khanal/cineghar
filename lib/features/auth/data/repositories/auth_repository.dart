@@ -1,27 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cineghar/core/error/failures.dart';
 import 'package:cineghar/core/services/connectivity/network_info.dart';
 import 'package:cineghar/features/auth/data/datasources/auth_datasource.dart';
-import 'package:cineghar/features/auth/data/datasources/local/auth_local_datasource.dart';
-import 'package:cineghar/features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:cineghar/features/auth/data/models/auth_api_model.dart';
 import 'package:cineghar/features/auth/data/models/auth_hive_model.dart';
 import 'package:cineghar/features/auth/domain/entities/auth_entity.dart';
 import 'package:cineghar/features/auth/domain/repositories/auth_repository.dart';
 
 // Provider
-final authRepositoryProvider = Provider<IAuthRepository>((ref) {
-  final authDatasource = ref.read(authLocalDatasourceProvider);
-  final authRemoteDatasource = ref.read(authRemoteDataSourceProvider);
-  final networkInfo = ref.read(networkInfoProvider);
-  return AuthRepository(
-    authDatasource: authDatasource,
-    authRemoteDataSource: authRemoteDatasource,
-    networkInfo: networkInfo,
-  );
-});
 
 class AuthRepository implements IAuthRepository {
   final IAuthDatasource _authDataSource;
@@ -64,9 +51,13 @@ class AuthRepository implements IAuthRepository {
       }
       return const Left(ApiFailure(message: "Failed to load profile"));
     } on DioException catch (e) {
+      final data = e.response?.data;
+      final message = data is Map && data['message'] != null
+          ? data['message'].toString()
+          : (data is String ? data : "Failed to load profile");
       return Left(
         ApiFailure(
-          message: e.response?.data['message'] ?? "Failed to load profile",
+          message: message,
           statusCode: e.response?.statusCode,
         ),
       );
@@ -89,9 +80,13 @@ class AuthRepository implements IAuthRepository {
       }
       return const Left(ApiFailure(message: "Failed to upload image"));
     } on DioException catch (e) {
+      final data = e.response?.data;
+      final message = data is Map && data['message'] != null
+          ? data['message'].toString()
+          : (data is String ? data : "Failed to upload image");
       return Left(
         ApiFailure(
-          message: e.response?.data['message'] ?? "Failed to upload image",
+          message: message,
           statusCode: e.response?.statusCode,
         ),
       );
@@ -117,9 +112,13 @@ class AuthRepository implements IAuthRepository {
         }
         return const Left(ApiFailure(message: "Invalid credentials"));
       } on DioException catch (e) {
+        final data = e.response?.data;
+        final message = data is Map && data['message'] != null
+            ? data['message'].toString()
+            : (data is String ? data : "Login failed");
         return Left(
           ApiFailure(
-            message: e.response?.data['message'] ?? "Login failed",
+            message: message,
             statusCode: e.response?.statusCode,
           ),
         );
@@ -143,6 +142,9 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<Either<Failure, bool>> logout() async {
     try {
+      // Clear remote session (SecureStorage and SharedPreferences)
+      await _authRemoteDataSource.logout();
+      // Clear local Hive session
       final result = await _authDataSource.logout();
       if (result) {
         return const Right(true);
@@ -162,9 +164,13 @@ class AuthRepository implements IAuthRepository {
         await _authRemoteDataSource.register(apiModel);
         return const Right(true);
       } on DioException catch (e) {
+        final data = e.response?.data;
+        final message = data is Map && data['message'] != null
+            ? data['message'].toString()
+            : (data is String ? data : "Registration failed");
         return Left(
           ApiFailure(
-            message: e.response?.data['message'] ?? "Registration failed",
+            message: message,
             statusCode: e.response?.statusCode,
           ),
         );
@@ -190,4 +196,3 @@ class AuthRepository implements IAuthRepository {
     }
   }
 }
-

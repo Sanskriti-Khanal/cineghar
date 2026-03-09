@@ -1,8 +1,10 @@
-import 'package:cineghar/features/auth/presentation/state/auth_state.dart';
-import 'package:cineghar/features/auth/presentation/view_model/auth_viewmodel.dart';
+import 'package:cineghar/features/auth/presentation/providers/auth_providers.dart';
+import 'package:cineghar/features/auth/presentation/providers/auth_state.dart';
+import 'package:cineghar/features/auth/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:cineghar/core/utils/snackbar_utils.dart';
 import 'package:cineghar/features/dashboard/presentation/pages/bottom_navigation_page.dart';
 import 'package:cineghar/features/auth/presentation/pages/register_page.dart';
+import 'package:cineghar/features/forgot_password/presentation/pages/forgot_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +31,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      await ref.read(authViewmodelProvider.notifier).login(
+      await ref.read(authViewModelProvider.notifier).login(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
           );
@@ -49,10 +51,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isTablet = size.width > 600;
-    final authState = ref.watch(authViewmodelProvider);
+    final authState = ref.watch(authViewModelProvider);
 
     // Listen for state changes
-    ref.listen<AuthState>(authViewmodelProvider, (previous, next) {
+    ref.listen<AuthState>(authViewModelProvider, (previous, next) {
       if (next.status == AuthStatus.authenticated) {
         SnackbarUtils.showSuccess(context, 'Login successful!');
         Navigator.pushReplacement(
@@ -197,10 +199,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     ),
                                   ],
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    // Navigate to forgot password screen
-                                  },
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const ForgotPasswordPage(),
+                                        ),
+                                      );
+                                    },
                                   child: const Text(
                                     'Forgot Password?',
                                     style: TextStyle(

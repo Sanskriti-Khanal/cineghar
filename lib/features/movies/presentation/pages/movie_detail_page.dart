@@ -1,6 +1,12 @@
+import 'package:cineghar/features/booking/presentation/providers/booking_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:cineghar/app/theme/app_colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cineghar/features/booking/presentation/pages/booking_page.dart';
+import 'package:cineghar/features/booking/presentation/viewmodel/booking_viewmodel.dart';
 
-class MovieDetailPage extends StatelessWidget {
+class MovieDetailPage extends ConsumerWidget {
+  final String movieId;
   final String title;
   final String subtitle;
   final String imageURL;
@@ -11,6 +17,7 @@ class MovieDetailPage extends StatelessWidget {
 
   const MovieDetailPage({
     super.key,
+    required this.movieId,
     required this.title,
     required this.subtitle,
     required this.imageURL,
@@ -21,7 +28,7 @@ class MovieDetailPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final primaryColor = theme.colorScheme.primary;
     final size = MediaQuery.of(context).size;
@@ -46,14 +53,20 @@ class MovieDetailPage extends StatelessWidget {
                     return Container(
                       color: Colors.grey[900],
                       alignment: Alignment.center,
-                      child: const CircularProgressIndicator(color: Colors.white),
+                      child: const CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     );
                   },
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       color: Colors.grey[900],
                       alignment: Alignment.center,
-                      child: const Icon(Icons.broken_image, color: Colors.white, size: 50),
+                      child: const Icon(
+                        Icons.broken_image,
+                        color: Colors.white,
+                        size: 50,
+                      ),
                     );
                   },
                 ),
@@ -67,10 +80,7 @@ class MovieDetailPage extends StatelessWidget {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black,
-                        ],
+                        colors: [Colors.transparent, Colors.black],
                       ),
                     ),
                   ),
@@ -103,7 +113,11 @@ class MovieDetailPage extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.play_arrow, color: Colors.white, size: 32),
+                        icon: const Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
+                          size: 32,
+                        ),
                         onPressed: () {},
                       ),
                     ),
@@ -186,10 +200,7 @@ class MovieDetailPage extends StatelessWidget {
                           height: 60,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white24,
-                              width: 2,
-                            ),
+                            border: Border.all(color: Colors.white24, width: 2),
                           ),
                           child: ClipOval(
                             child: Image.network(
@@ -209,7 +220,9 @@ class MovieDetailPage extends StatelessWidget {
                         );
                       }).toList(),
                     ),
-                    SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom + 100,
+                    ),
                   ],
                 ),
               ),
@@ -218,9 +231,7 @@ class MovieDetailPage extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(24.0),
-            decoration: const BoxDecoration(
-              color: Colors.black,
-            ),
+            decoration: const BoxDecoration(color: Colors.black),
             child: SafeArea(
               top: false,
               child: Row(
@@ -230,30 +241,54 @@ class MovieDetailPage extends StatelessWidget {
                     height: 56,
                     decoration: BoxDecoration(
                       color: primaryColor,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: AppColors.buttonShadow,
                     ),
                     child: IconButton(
                       icon: const Icon(Icons.favorite, color: Colors.white),
-                      onPressed: () {},
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Added to favorites'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        // TODO: Implement add to favorites functionality
+                      },
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        foregroundColor: Colors.white,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Reset booking progress but keep pre-applied offer
+                        ref.read(bookingViewModelProvider.notifier).resetBookingSteps(keepOffer: true);
+                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BookingPage(
+                              movieId: movieId,
+                              movieTitle: title,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                        decoration: BoxDecoration(
+                          gradient: AppColors.primaryGradient,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: AppColors.buttonShadow,
                         ),
-                      ),
-                      child: const Text(
-                        'Get Tickets',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Get Tickets',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
@@ -267,6 +302,3 @@ class MovieDetailPage extends StatelessWidget {
     );
   }
 }
-
-
-

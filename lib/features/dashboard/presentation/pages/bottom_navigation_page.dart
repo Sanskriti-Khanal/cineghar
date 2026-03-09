@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cineghar/app/theme/app_colors.dart';
+import 'package:cineghar/app/theme/app_colors.dart';
 import 'package:cineghar/features/dashboard/presentation/pages/home_page.dart';
-import 'package:cineghar/features/dashboard/presentation/pages/sales_page.dart';
-import 'package:cineghar/features/dashboard/presentation/pages/loyalty_page.dart';
+import 'package:cineghar/features/sales/presentation/pages/sales_page.dart';
+import 'package:cineghar/features/loyalty/presentation/pages/loyalty_page.dart';
 import 'package:cineghar/features/dashboard/presentation/pages/profile_page.dart';
 
 class BottomNavigationPage extends StatefulWidget {
@@ -29,7 +31,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
 
     return Scaffold(
       body: _bottomScreens[_selectedIndex],
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       bottomNavigationBar: Padding(
         padding: EdgeInsets.fromLTRB(
           16,
@@ -38,10 +40,11 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           (bottomInset > 0 ? bottomInset : 8) + 4,
         ),
         child: Container(
-          height: 67, 
+          height: 67,
           decoration: BoxDecoration(
-            color: const Color(0xFFF5F5F5),
+            color: AppColors.surfaceVariant,
             borderRadius: BorderRadius.circular(24),
+            boxShadow: AppColors.softShadow,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -111,7 +114,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color inactiveColor = const Color(0xFF4A4A4A);
+    final Color inactiveColor = AppColors.textSecondary;
 
     return Expanded(
       child: InkWell(

@@ -1,25 +1,53 @@
 import 'dart:async';
 
+import 'package:cineghar/core/error/failures.dart';
+import 'package:cineghar/core/providers/shared_prefs_provider.dart';
+import 'package:cineghar/features/auth/domain/entities/auth_entity.dart';
+import 'package:cineghar/features/auth/domain/usecases/get_current_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/get_profile_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/login_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/register_usecase.dart';
+import 'package:cineghar/features/auth/domain/usecases/upload_profile_image_usecase.dart';
+import 'package:cineghar/features/auth/presentation/pages/login_page.dart';
+import 'package:cineghar/features/auth/presentation/providers/auth_providers.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cineghar/core/error/failures.dart';
-import 'package:cineghar/features/auth/domain/entities/auth_entity.dart';
-import 'package:cineghar/features/auth/domain/usecases/login_usecase.dart';
-import 'package:cineghar/features/auth/domain/usecases/register_usecase.dart';
-import 'package:cineghar/features/auth/presentation/pages/login_page.dart';
 import 'package:mocktail/mocktail.dart';
+
+import '../../../../test_helper.dart';
 
 class MockRegisterUsecase extends Mock implements RegisterUsecase {}
 
 class MockLoginUsecase extends Mock implements LoginUsecase {}
 
+class MockLogoutUsecase extends Mock implements LogoutUsecase {}
+
+class MockGetCurrentUsecase extends Mock implements GetCurrentUsecase {}
+
+class MockGetProfileUsecase extends Mock implements GetProfileUsecase {}
+
+class MockUploadProfileImageUsecase extends Mock
+    implements UploadProfileImageUsecase {}
+
 void main() {
   late MockRegisterUsecase mockRegisterUsecase;
   late MockLoginUsecase mockLoginUsecase;
+  late MockLogoutUsecase mockLogoutUsecase;
+  late MockGetCurrentUsecase mockGetCurrentUsecase;
+  late MockGetProfileUsecase mockGetProfileUsecase;
+  late MockUploadProfileImageUsecase mockUploadProfileImageUsecase;
+  late MockSharedPreferences mockSharedPreferences;
 
   setUpAll(() {
+    registerFallbackValue(
+      const LoginUsecaseParams(
+        email: 'fallback@email.com',
+        password: 'fallback',
+      ),
+    );
     registerFallbackValue(
       const RegisterUsecaseParams(
         fullName: 'fallback',
@@ -28,24 +56,29 @@ void main() {
         password: 'fallback',
       ),
     );
-    registerFallbackValue(
-      const LoginUsecaseParams(
-        email: 'fallback@email.com',
-        password: 'fallback',
-      ),
-    );
   });
 
   setUp(() {
     mockRegisterUsecase = MockRegisterUsecase();
     mockLoginUsecase = MockLoginUsecase();
+    mockLogoutUsecase = MockLogoutUsecase();
+    mockGetCurrentUsecase = MockGetCurrentUsecase();
+    mockGetProfileUsecase = MockGetProfileUsecase();
+    mockUploadProfileImageUsecase = MockUploadProfileImageUsecase();
+    mockSharedPreferences = MockSharedPreferences();
   });
 
   Widget createTestWidget() {
     return ProviderScope(
       overrides: [
+        sharedPreferencesProvider.overrideWithValue(mockSharedPreferences),
         registerUsecaseProvider.overrideWithValue(mockRegisterUsecase),
         loginUsecaseProvider.overrideWithValue(mockLoginUsecase),
+        logoutUsecaseProvider.overrideWithValue(mockLogoutUsecase),
+        getCurrentUsecaseProvider.overrideWithValue(mockGetCurrentUsecase),
+        getProfileUsecaseProvider.overrideWithValue(mockGetProfileUsecase),
+        uploadProfileImageUsecaseProvider
+            .overrideWithValue(mockUploadProfileImageUsecase),
       ],
       child: const MaterialApp(home: LoginPage()),
     );
@@ -218,6 +251,7 @@ void main() {
       await tester.tap(find.text('Log In'));
       await tester.pump();
 
+      // Check for CircularProgressIndicator in the login button
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
   });

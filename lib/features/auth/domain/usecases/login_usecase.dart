@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cineghar/core/error/failures.dart';
 import 'package:cineghar/core/usecases/app_usecase.dart';
 import 'package:cineghar/features/auth/data/repositories/auth_repository.dart';
@@ -18,10 +17,6 @@ class LoginUsecaseParams extends Equatable {
 }
 
 // Provider
-final loginUsecaseProvider = Provider<LoginUsecase>((ref) {
-  final authRepository = ref.read(authRepositoryProvider);
-  return LoginUsecase(authRepository: authRepository);
-});
 
 class LoginUsecase implements UsecaseWithParams<AuthEntity, LoginUsecaseParams> {
   final IAuthRepository _authRepository;
@@ -34,4 +29,3 @@ class LoginUsecase implements UsecaseWithParams<AuthEntity, LoginUsecaseParams> 
     return _authRepository.login(params.email, params.password);
   }
 }
-

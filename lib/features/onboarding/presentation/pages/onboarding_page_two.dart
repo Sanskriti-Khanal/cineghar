@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cineghar/app/theme/app_colors.dart';
 import 'package:cineghar/features/onboarding/presentation/pages/onboarding_page_three.dart';
 import 'package:cineghar/features/welcome/presentation/pages/welcome_page.dart';
+import 'package:cineghar/core/services/storage/user_session_service.dart';
 
-class OnboardingPageTwo extends StatelessWidget {
+class OnboardingPageTwo extends ConsumerWidget {
   const OnboardingPageTwo({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     final isTablet = size.width > 600;
     final horizontalPadding = isTablet ? 48.0 : 24.0;
@@ -30,8 +33,8 @@ class OnboardingPageTwo extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(200, 0, 0, 0),
-                  Color.fromARGB(220, 0, 0, 0),
+                  Colors.black87,
+                  Colors.black,
                 ],
               ),
             ),
@@ -50,6 +53,7 @@ class OnboardingPageTwo extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () {
+                          ref.read(userSessionServiceProvider).setFirstLaunchCompleted();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -57,13 +61,14 @@ class OnboardingPageTwo extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Text(
-                          'Skip',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: skipFontSize,
-                          ),
-                        ),
+                            child: Text(
+                              'Skip',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: skipFontSize,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                       ),
                     ],
                   ),
@@ -117,14 +122,15 @@ class OnboardingPageTwo extends StatelessWidget {
                               vertical: isTablet ? 18 : 16,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(40),
+                              gradient: AppColors.primaryGradient,
+                              borderRadius: BorderRadius.circular(24),
+                              boxShadow: AppColors.buttonShadow,
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               'Next',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: buttonFontSize,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -152,13 +158,16 @@ class _PageDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       height: 8,
       width: isActive ? 18 : 8,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : Colors.white.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(10),
+        color: isActive
+            ? theme.colorScheme.primary
+            : Colors.white.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(12),
       ),
     );
   }

@@ -15,5 +15,5 @@ abstract interface class IAuthRemoteDataSource {
   Future<AuthApiModel?> getUserById(String authId);
   Future<AuthApiModel?> getProfile();
   Future<AuthApiModel?> uploadProfileImage(dynamic file);
+  Future<void> logout();
 }
-

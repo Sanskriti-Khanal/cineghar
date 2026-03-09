@@ -18,6 +18,7 @@ class UserSessionService {
   static const String _keyUserName = "user_name";
   static const String _keyUserDateOfBirth = "user_date_of_birth";
   static const String _keyUserRole = "user_role";
+  static const String _keyIsFirstLaunch = "is_first_launch";
 
   // store user session
   Future<void> saveUserSession({
@@ -72,5 +73,13 @@ class UserSessionService {
 
   String? getUserRole() {
     return _prefs.getString(_keyUserRole);
+  }
+
+  bool isFirstLaunch() {
+    return _prefs.getBool(_keyIsFirstLaunch) ?? true;
+  }
+
+  Future<void> setFirstLaunchCompleted() async {
+    await _prefs.setBool(_keyIsFirstLaunch, false);
   }
 }

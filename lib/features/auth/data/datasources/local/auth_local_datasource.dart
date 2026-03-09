@@ -1,13 +1,8 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cineghar/core/services/hive/hive_service.dart';
 import 'package:cineghar/features/auth/data/datasources/auth_datasource.dart';
 import 'package:cineghar/features/auth/data/models/auth_hive_model.dart';
 
 // Provider
-final authLocalDatasourceProvider = Provider<AuthLocalDatasource>((ref) {
-  final hiveService = ref.watch(hiveServiceProvider);
-  return AuthLocalDatasource(hiveService: hiveService);
-});
 
 class AuthLocalDatasource implements IAuthDatasource {
   final HiveService _hiveService;
@@ -65,4 +60,3 @@ class AuthLocalDatasource implements IAuthDatasource {
     }
   }
 }
-

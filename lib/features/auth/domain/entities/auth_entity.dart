@@ -30,4 +30,3 @@ class AuthEntity extends Equatable {
         profilePicture,
       ];
 }
-

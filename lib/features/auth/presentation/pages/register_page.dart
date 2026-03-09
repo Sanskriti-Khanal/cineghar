@@ -1,5 +1,6 @@
-import 'package:cineghar/features/auth/presentation/state/auth_state.dart';
-import 'package:cineghar/features/auth/presentation/view_model/auth_viewmodel.dart';
+import 'package:cineghar/features/auth/presentation/providers/auth_providers.dart';
+import 'package:cineghar/features/auth/presentation/providers/auth_state.dart';
+import 'package:cineghar/features/auth/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:cineghar/core/utils/snackbar_utils.dart';
 import 'package:cineghar/features/auth/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -35,17 +36,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _handleSignup() async {
     if (_formKey.currentState!.validate()) {
-      final fullName =
-          '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}';
-      final username = _emailController.text.trim().split('@').first;
-
-      await ref.read(authViewmodelProvider.notifier).register(
-            fullName: fullName,
+      await ref.read(authViewModelProvider.notifier).register(
+            firstName: _firstNameController.text.trim(),
+            lastName: _lastNameController.text.trim(),
             email: _emailController.text.trim(),
-            phoneNumber: _phoneController.text.trim().isNotEmpty
+            phone: _phoneController.text.trim().isNotEmpty
                 ? _phoneNumber.phoneNumber ?? _phoneController.text.trim()
-                : null,
-            username: username,
+                : '',
             password: _passwordController.text.trim(),
           );
     }
@@ -64,10 +61,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isTablet = size.width > 600;
-    final authState = ref.watch(authViewmodelProvider);
+    final authState = ref.watch(authViewModelProvider);
 
     // Listen for state changes
-    ref.listen<AuthState>(authViewmodelProvider, (previous, next) {
+    ref.listen<AuthState>(authViewModelProvider, (previous, next) {
       if (next.status == AuthStatus.error && next.errorMessage != null) {
         SnackbarUtils.showError(context, next.errorMessage!);
       } else if (next.status == AuthStatus.registered) {

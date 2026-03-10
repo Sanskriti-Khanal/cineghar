@@ -10,7 +10,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../test_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 void main() {
   late MockSharedPreferences mockSharedPreferences;
